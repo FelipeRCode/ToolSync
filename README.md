@@ -110,10 +110,15 @@ javac -encoding UTF-8 -cp ../bin -d ../bin App.java
 Integrantes
 
 Felipe Dos Reis
+
 Pedro Henrique da Costa Amaral 
+
 Poliane Soares da Cruz 
+
 Ygor Vinicius da Silva Borges 
+
 Otavio Luiz Russa Pinto 
+
 
 Disciplina
 Linguagem de Programação — Trabalho Interdisciplinar
