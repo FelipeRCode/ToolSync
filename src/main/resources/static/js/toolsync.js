@@ -120,6 +120,129 @@ const ToolSync = (() => {
         return usuario;
     }
 
+    // ------------------------------------------------------------------ máscaras dos campos
+    // Os campos já saem no formato certo enquanto o usuário digita (CPF, CNPJ, telefone,
+    // CEP, UF, RG, NCM, valores em R$...), então não há como digitar no formato errado.
+    const MASCARAS = [
+        { id: /^(func|editFunc)CPF$/, tipo: 'cpf' },
+        { id: /^cliCPF$/, tipo: 'cpfCnpj' },
+        { id: /CNPJ$/, tipo: 'cnpj' },
+        { id: /(Telefone|Celular)$/, tipo: 'telefone' },
+        { id: /CEP$/, tipo: 'cep' },
+        { id: /UF$/, tipo: 'uf' },
+        { id: /^(func|editFunc)RG$/, tipo: 'rg' },
+        { id: /^ncm$/, tipo: 'ncm' },
+        { id: /^ean$/, tipo: 'ean' },
+        { id: /^(precoVenda|precoCusto|payPix|payCartao|payDinheiro|entCusto)$/, tipo: 'moeda' },
+        { id: /^(largura|altura|comprimento)$/, tipo: 'decimal' }
+    ];
+    const FORMATO = {
+        cpf: { mascara: '000.000.000-00', exemplo: '000.000.000-00' },
+        cnpj: { mascara: '00.000.000/0000-00', exemplo: '00.000.000/0000-00' },
+        cep: { mascara: '00000-000', exemplo: '00000-000' },
+        rg: { mascara: '00.000.000-X', exemplo: '00.000.000-0' },
+        ncm: { mascara: '0000.00.00', exemplo: '0000.00.00' }
+    };
+    function aplicarPadrao(texto, mascara, aceita) {
+        const chars = [...String(texto)].filter(c => aceita.test(c));
+        let saida = '', i = 0;
+        for (const m of mascara) {
+            if (i >= chars.length) break;
+            saida += (m === '0' || m === 'X') ? chars[i++] : m;
+        }
+        return saida;
+    }
+    const digitos = t => String(t).replace(/\D/g, '');
+    function formatarCampo(tipo, v) {
+        switch (tipo) {
+            case 'cpf': case 'cnpj': case 'cep': case 'ncm':
+                return aplicarPadrao(v, FORMATO[tipo].mascara, /\d/);
+            case 'rg':
+                return aplicarPadrao(String(v).toUpperCase(), FORMATO.rg.mascara, /[\dX]/);
+            case 'cpfCnpj':
+                return digitos(v).length <= 11 ? aplicarPadrao(v, FORMATO.cpf.mascara, /\d/) : aplicarPadrao(v, FORMATO.cnpj.mascara, /\d/);
+            case 'telefone':
+                return digitos(v).length <= 10 ? aplicarPadrao(v, '(00) 0000-0000', /\d/) : aplicarPadrao(v, '(00) 00000-0000', /\d/);
+            case 'uf':
+                return String(v).replace(/[^a-zA-Z]/g, '').toUpperCase().slice(0, 2);
+            case 'ean':
+                return digitos(v).slice(0, 14);
+            case 'moeda': {
+                const d = digitos(v).replace(/^0+(?=\d)/, '').slice(0, 11);
+                return d ? (Number(d) / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '';
+            }
+            case 'decimal': {
+                const s = String(v).replace('.', ',').replace(/[^\d,]/g, '');
+                const [inteiro, ...resto] = s.split(',');
+                return resto.length ? `${inteiro.slice(0, 5)},${resto.join('').slice(0, 2)}` : inteiro.slice(0, 5);
+            }
+        }
+        return v;
+    }
+    /** campo preenchido mas incompleto (ex.: CPF com 9 números): devolve a mensagem de ajuda */
+    function campoIncompleto(tipo, v) {
+        if (!v) return null;
+        const n = digitos(v).length;
+        if (tipo === 'cpf' && n !== 11) return 'Complete o CPF (11 números).';
+        if (tipo === 'cnpj' && n !== 14) return 'Complete o CNPJ (14 números).';
+        if (tipo === 'cpfCnpj' && n !== 11 && n !== 14) return 'Digite os 11 números do CPF ou os 14 do CNPJ.';
+        if (tipo === 'telefone' && n !== 10 && n !== 11) return 'Digite o DDD e o número (10 ou 11 números).';
+        if (tipo === 'cep' && n !== 8) return 'Complete o CEP (8 números).';
+        if (tipo === 'uf' && v.length !== 2) return 'Use a sigla do estado (ex.: SP).';
+        if (tipo === 'ncm' && n !== 8) return 'Complete o NCM (8 números).';
+        return null;
+    }
+    const tipoDoCampo = el => {
+        const regra = el && el.id && el.tagName === 'INPUT' && MASCARAS.find(m => m.id.test(el.id));
+        return regra ? regra.tipo : null;
+    };
+    function prepararCampos(raiz = document) {
+        raiz.querySelectorAll('input[id]').forEach(el => {
+            const tipo = tipoDoCampo(el);
+            if (!tipo || el.dataset.mascara) return;
+            el.dataset.mascara = tipo;
+            const fmt = FORMATO[tipo];
+            if (fmt) { el.maxLength = fmt.mascara.length; el.placeholder = fmt.exemplo; }
+            if (tipo === 'cpfCnpj') { el.maxLength = 18; el.placeholder = 'CPF ou CNPJ (só números)'; }
+            if (tipo === 'telefone') { el.maxLength = 15; el.placeholder = '(00) 00000-0000'; }
+            if (tipo === 'uf') { el.maxLength = 2; el.placeholder = 'SP'; }
+            if (tipo === 'moeda') { el.placeholder = '0,00'; el.style.textAlign = 'right'; }
+            if (tipo !== 'uf' && tipo !== 'rg') el.inputMode = tipo === 'decimal' ? 'decimal' : 'numeric';
+            if (el.value) el.value = formatarCampo(tipo, el.value);
+        });
+    }
+    // fase de captura no document: formata antes dos outros "input" da tela e vale também
+    // para campos criados depois (ex.: o formulário de entrada de estoque)
+    document.addEventListener('input', ev => {
+        const tipo = tipoDoCampo(ev.target);
+        if (!tipo) return;
+        const novo = formatarCampo(tipo, ev.target.value);
+        if (novo !== ev.target.value) ev.target.value = novo;
+        ev.target.style.borderColor = '';
+        ev.target.title = '';
+    }, true);
+    document.addEventListener('focusout', ev => {
+        const tipo = tipoDoCampo(ev.target);
+        if (!tipo) return;
+        const aviso = campoIncompleto(tipo, ev.target.value.trim());
+        ev.target.style.borderColor = aviso ? '#d90000' : '';
+        ev.target.title = aviso || '';
+    }, true);
+    document.addEventListener('DOMContentLoaded', () => prepararCampos());
+
+    /** antes de salvar: marca de vermelho os campos incompletos e devolve o primeiro aviso */
+    function camposIncompletos() {
+        let primeiro = null;
+        document.querySelectorAll('input[data-mascara]').forEach(el => {
+            const aviso = campoIncompleto(el.dataset.mascara, el.value.trim());
+            el.style.borderColor = aviso ? '#d90000' : '';
+            if (aviso && !primeiro) primeiro = { el, aviso };
+        });
+        if (!primeiro) return null;
+        primeiro.el.focus();
+        return primeiro.aviso;
+    }
+
     function preencherDatalist(id, itens) {
         let lista = $(id);
         if (!lista) {
@@ -327,9 +450,11 @@ const ToolSync = (() => {
             const dados = {
                 nome: valor('cliNome'), documento: valor('cliCPF'), rua: valor('cliRua'), bairro: valor('cliBairro'),
                 numero: valor('cliNum'), cep: valor('cliCEP'), cidade: valor('cliCidade'), uf: valor('cliUF'),
-                telefone: valor('cliTelefone'), email: valor('cliEmail')
+                telefone: valor('cliCelular') || valor('cliTelefone'), email: valor('cliEmail')
             };
             if (!dados.nome || !dados.documento) return alert('Por favor, preencha o Nome e o CPF/CNPJ do cliente.');
+            const faltando = camposIncompletos();
+            if (faltando) return alert(faltando);
             try {
                 const c = await post('/api/clientes', dados);
                 alert(`Cliente ${c.nome} cadastrado com sucesso! Código: ${c.codigo}`);
@@ -408,6 +533,8 @@ const ToolSync = (() => {
             if (!dados.nome || !dados.cpf || !dados.rg || !dados.matricula) return alert('Por favor, preencha Nome Completo, RG, CPF e Matrícula.');
             if (!dados.cargo) return alert('Escolha a função do funcionário.');
             if (!dados.login || !dados.senha) return alert('Informe o login e a senha inicial de acesso ao sistema.');
+            const faltando = camposIncompletos();
+            if (faltando) return alert(faltando);
             try {
                 const f = await post('/api/funcionarios', dados);
                 alert(`Funcionário ${f.nome} (${f.cargoDescricao}) cadastrado com sucesso!\nLogin: ${f.login}`);
@@ -430,6 +557,8 @@ const ToolSync = (() => {
         $('btnSalvarEdicaoFunc').addEventListener('click', async () => {
             const dados = dadosFuncionario('editFunc');
             if ($('editFuncAtivo')) dados.ativo = $('editFuncAtivo').value === 'true';
+            const faltando = camposIncompletos();
+            if (faltando) return alert(faltando);
             try {
                 await put(`/api/funcionarios/${id}`, dados);
                 alert('Informações do funcionário atualizadas com sucesso!');
@@ -508,6 +637,8 @@ const ToolSync = (() => {
         $('btnSalvarFornecedor').addEventListener('click', async () => {
             const dados = dadosFornecedor('forn');
             if (!dados.razaoSocial || !dados.cnpj || !dados.tipoProduto) return alert('Por favor, preencha Razão Social, CNPJ e Tipo de Produto ou Serviço.');
+            const faltando = camposIncompletos();
+            if (faltando) return alert(faltando);
             try {
                 const f = await post('/api/fornecedores', dados);
                 alert(`Fornecedor ${f.razaoSocial} cadastrado com sucesso!`);
@@ -529,6 +660,8 @@ const ToolSync = (() => {
         $('btnSalvarEdicaoForn').addEventListener('click', async () => {
             const dados = dadosFornecedor('editForn');
             dados.ativo = true;
+            const faltando = camposIncompletos();
+            if (faltando) return alert(faltando);
             try {
                 await put(`/api/fornecedores/${id}`, dados);
                 alert('Informações do fornecedor atualizadas com sucesso!');
@@ -1080,6 +1213,8 @@ const ToolSync = (() => {
         $('btnSalvarProduto').addEventListener('click', async () => {
             const codigo = valor('codigo'), nome = valor('nome');
             if (!codigo || !nome) return alert('Por favor, preencha ao menos o Código e o Nome do produto.');
+            const faltando = camposIncompletos();
+            if (faltando) return alert(faltando);
             const fornNome = valor('fornecedor');
             const forn = fornecedores.find(f => f.razaoSocial.toLowerCase() === fornNome.toLowerCase());
             if (fornNome && !forn) return alert('Fornecedor não encontrado. Escolha um fornecedor da lista.');
