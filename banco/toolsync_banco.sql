@@ -4,8 +4,7 @@
 --
 -- Fatec Sao Jose do Rio Preto - Projeto Interdisciplinar
 --
--- O que este script atende (documentacao do projeto):
---   Etapa 2 (3.5 / 3.6)
+-- O que este script atende:
 --     - 16 tabelas, com 3 relacionamentos N x N:
 --         Vendas    x Produtos      -> ItensVenda
 --         Produtos  x Fornecedores  -> ProdutoFornecedor
@@ -14,7 +13,6 @@
 --     - 4 perfis de acesso (Funcionarios.cargo): PROPRIETARIO,
 --       GERENTE, VENDEDOR e ESTOQUISTA
 --     - Injecao de dados para testes e apresentacao (final do script)
---   Etapa 3 (4.2 / 4.3)
 --     - 7 procedures (transacoes chamadas pelo sistema Java)
 --     - 4 triggers   (disparados por transacoes do sistema Java)
 --     - 5 views      (consultas complexas chamadas pelo sistema Java)
@@ -22,7 +20,6 @@
 --     - Backup do banco (sp_BackupBanco) e comandos de Restore
 --
 -- Senha de teste de TODOS os usuarios cadastrados: toolsync123
--- (gravada como hash BCrypt, o mesmo formato usado pelo Spring Security)
 -------------------------------------------------------------
 
 -------------------------------------------------------------
@@ -48,7 +45,7 @@ use ToolSync
 go
 
 -------------------------------------------------------------
--- Criar a tabela Pessoas (tabela MAE da heranca)
+-- Criar a tabela Pessoas
 -- Guarda os dados comuns de clientes, funcionarios e fornecedores:
 -- nome, contato e endereco.
 -------------------------------------------------------------
@@ -1834,5 +1831,5 @@ go
 -- 4) Desativar a unica proprietaria -> trigger bloqueia
 -- update Funcionarios set ativo = 0 where cargo = 'PROPRIETARIO'
 --
--- 5) Backup do banco (ponto extra)
+-- 5) Backup do banco
 -- exec sp_BackupBanco
