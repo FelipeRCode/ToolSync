@@ -75,6 +75,42 @@ Na autenticação do Windows (`integratedSecurity=true`), o driver precisa da DL
 java "-Djava.library.path=target/native" -jar target/toolsync-0.0.1-SNAPSHOT.war
 ```
 
+### Rodando pelo VS Code
+
+O jeito mais simples é abrir a pasta `ToolSync` no VS Code e rodar `.\mvnw.cmd spring-boot:run` no terminal integrado.
+
+Para usar o botão Run / Spring Boot Dashboard com a autenticação do Windows, rode uma vez `.\mvnw.cmd generate-resources` (baixa a DLL para `target/native`) e crie `.vscode/launch.json`:
+
+```json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "ToolSync",
+      "request": "launch",
+      "mainClass": "br.edu.fatecriopreto.toolsync.ToolSyncApplication",
+      "vmArgs": "-Djava.library.path=${workspaceFolder}/target/native -Dfile.encoding=UTF-8"
+    }
+  ]
+}
+```
+
+### Porta 8080 ocupada
+
+Rodar em outra porta, sem editar arquivos:
+
+```powershell
+.\mvnw.cmd spring-boot:run "-Dspring-boot.run.arguments=--server.port=8081"
+```
+
+Ver e encerrar o processo que está usando a porta 8080:
+
+```powershell
+Get-Process -Id (Get-NetTCPConnection -LocalPort 8080 -State Listen).OwningProcess
+Stop-Process -Id (Get-NetTCPConnection -LocalPort 8080 -State Listen).OwningProcess -Force
+```
+
 ### Usuários de teste
 
 A senha de todos é `toolsync123`.
