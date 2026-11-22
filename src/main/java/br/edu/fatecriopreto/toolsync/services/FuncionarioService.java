@@ -29,7 +29,7 @@ public class FuncionarioService {
 	private final MovimentacaoEstoqueRepository movimentacaoRepository;
 	private final BancoService banco;
 
-	public List<FuncionarioDTO> listar() {
+	public List<FuncionarioDTO> listarTodos() {
 		return funcionarioRepository.findAllByOrderByNomeAsc().stream()
 				.map(f -> dto(f, usuarioRepository.findById(f.getId()).orElse(null))).toList();
 	}

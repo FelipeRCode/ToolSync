@@ -23,7 +23,7 @@ public class FornecedorService {
 	private final MovimentacaoEstoqueRepository movimentacaoRepository;
 	private final BancoService banco;
 
-	public List<FornecedorDTO> listar(boolean somenteAtivos) {
+	public List<FornecedorDTO> listarTodos(boolean somenteAtivos) {
 		List<FornecedorEntity> lista = somenteAtivos ? fornecedorRepository.findByAtivoTrueOrderByNomeAsc()
 				: fornecedorRepository.findAllByOrderByNomeAsc();
 		return lista.stream().map(this::dto).toList();
@@ -34,7 +34,16 @@ public class FornecedorService {
 	}
 
 	@Transactional
-	public FornecedorDTO salvar(Integer id, FornecedorDTO dados) {
+	public FornecedorDTO incluir(FornecedorDTO dados) {
+		return gravar(null, dados);
+	}
+
+	@Transactional
+	public FornecedorDTO editar(Integer id, FornecedorDTO dados) {
+		return gravar(id, dados);
+	}
+
+	private FornecedorDTO gravar(Integer id, FornecedorDTO dados) {
 		FornecedorEntity f = id == null ? new FornecedorEntity() : obter(id);
 		String razao = Validacao.obrigatorio(dados.razaoSocial(), "Razão Social");
 		Validacao.nome(razao);

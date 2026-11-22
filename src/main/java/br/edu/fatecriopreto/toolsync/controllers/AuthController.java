@@ -1,5 +1,6 @@
 package br.edu.fatecriopreto.toolsync.controllers;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,19 +26,19 @@ public class AuthController {
 	private final AuthService authService;
 
 	@PostMapping("/login")
-	public UsuarioLogadoDTO login(@RequestBody LoginRequest dados, HttpServletRequest request) {
+	public ResponseEntity<UsuarioLogadoDTO> login(@RequestBody LoginRequest dados, HttpServletRequest request) {
 		UsuarioSessao usuario = authService.autenticar(dados.login(), dados.senha());
 		HttpSession antiga = request.getSession(false);
 		if (antiga != null) {
 			antiga.invalidate();
 		}
 		request.getSession(true).setAttribute(UsuarioSessao.ATRIBUTO, usuario);
-		return dto(usuario);
+		return ResponseEntity.ok().body(dto(usuario));
 	}
 
 	@GetMapping("/me")
-	public UsuarioLogadoDTO usuarioLogado(@RequestAttribute(UsuarioSessao.ATRIBUTO) UsuarioSessao usuario) {
-		return dto(usuario);
+	public ResponseEntity<UsuarioLogadoDTO> usuarioLogado(@RequestAttribute(UsuarioSessao.ATRIBUTO) UsuarioSessao usuario) {
+		return ResponseEntity.ok().body(dto(usuario));
 	}
 
 	@PostMapping("/logout")
@@ -46,7 +47,7 @@ public class AuthController {
 		if (sessao != null) {
 			sessao.invalidate();
 		}
-		return ResponseEntity.noContent().build();
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	private UsuarioLogadoDTO dto(UsuarioSessao u) {

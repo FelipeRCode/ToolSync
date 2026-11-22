@@ -23,7 +23,7 @@ public class ClienteService {
 	private final BancoService banco;
 
 	/** lista com a ultima compra de cada cliente (function fc_UltimaCompraCliente) */
-	public List<ClienteDTO> listar() {
+	public List<ClienteDTO> listarTodos() {
 		List<Map<String, Object>> linhas = banco.consultar("""
 				select P.id, P.nome, C.tipo_pessoa, C.documento, P.email, P.telefone, P.rua, P.numero,
 				       P.bairro, P.cep, P.cidade, P.uf, P.data_cadastro,
@@ -51,7 +51,16 @@ public class ClienteService {
 	}
 
 	@Transactional
-	public ClienteDTO salvar(Integer id, ClienteDTO dados) {
+	public ClienteDTO incluir(ClienteDTO dados) {
+		return gravar(null, dados);
+	}
+
+	@Transactional
+	public ClienteDTO editar(Integer id, ClienteDTO dados) {
+		return gravar(id, dados);
+	}
+
+	private ClienteDTO gravar(Integer id, ClienteDTO dados) {
 		ClienteEntity c = id == null ? new ClienteEntity()
 				: clienteRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Cliente não encontrado."));
 

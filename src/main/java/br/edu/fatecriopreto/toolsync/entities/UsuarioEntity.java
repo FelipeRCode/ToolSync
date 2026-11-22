@@ -9,21 +9,25 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.ToString;
 
 /** Login do sistema. Relacao 1 x 1 com FuncionarioEntity (mesma chave). */
 @Entity
 @Table(name = "Usuarios")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class UsuarioEntity {
 
 	@Id
 	private Integer funcionarioId;
 
+	@ToString.Exclude
+	@EqualsAndHashCode.Exclude
 	@OneToOne(fetch = FetchType.LAZY)
 	@MapsId
 	@JoinColumn(name = "funcionario_id")

@@ -14,9 +14,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Produto (ferramenta). O saldo de estoque (estoqueAtual / estoqueReservado)
@@ -25,9 +27,9 @@ import lombok.Setter;
  */
 @Entity
 @Table(name = "Produtos")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class ProdutoEntity {
 
 	@Id
@@ -38,10 +40,14 @@ public class ProdutoEntity {
 	private String nome;
 	private String descricao;
 
+	@ToString.Exclude
+	@EqualsAndHashCode.Exclude
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "categoria_id")
 	private CategoriaEntity categoria;
 
+	@ToString.Exclude
+	@EqualsAndHashCode.Exclude
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "marca_id")
 	private MarcaEntity marca;
@@ -73,10 +79,14 @@ public class ProdutoEntity {
 	private Boolean ativo = true;
 
 	/** N x N com Fornecedores (tabela associativa ProdutoFornecedor) */
+	@ToString.Exclude
+	@EqualsAndHashCode.Exclude
 	@OneToMany(mappedBy = "produto")
 	private List<ProdutoFornecedorEntity> fornecedores = new ArrayList<>();
 
 	/** N x N com Localizacoes (tabela associativa ProdutoLocalizacao) */
+	@ToString.Exclude
+	@EqualsAndHashCode.Exclude
 	@OneToMany(mappedBy = "produto")
 	private List<ProdutoLocalizacaoEntity> localizacoes = new ArrayList<>();
 }

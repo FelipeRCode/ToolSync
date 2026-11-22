@@ -3,6 +3,7 @@ package br.edu.fatecriopreto.toolsync.controllers;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
@@ -29,30 +30,30 @@ public class EstoqueController {
 	private final EstoqueService estoqueService;
 
 	@PostMapping("/entradas")
-	public Map<String, Object> entrada(@RequestBody EntradaEstoqueRequest dados, @RequestAttribute(UsuarioSessao.ATRIBUTO) UsuarioSessao usuario) {
-		return estoqueService.entrada(dados.produtoId(), dados.quantidade(), dados.precoCusto(), dados.fornecedorId(),
-				dados.localizacaoId(), dados.documento(), usuario);
+	public ResponseEntity<Map<String, Object>> entrada(@RequestBody EntradaEstoqueRequest dados, @RequestAttribute(UsuarioSessao.ATRIBUTO) UsuarioSessao usuario) {
+		return ResponseEntity.ok().body(estoqueService.entrada(dados.produtoId(), dados.quantidade(), dados.precoCusto(), dados.fornecedorId(),
+				dados.localizacaoId(), dados.documento(), usuario));
 	}
 
 	@GetMapping("/movimentacoes")
-	public List<Map<String, Object>> movimentacoes(@RequestParam(required = false) String codigo) {
-		return estoqueService.movimentacoes(codigo);
+	public ResponseEntity<List<Map<String, Object>>> movimentacoes(@RequestParam(required = false) String codigo) {
+		return ResponseEntity.ok().body(estoqueService.movimentacoes(codigo));
 	}
 
 	/** usado nos dashboards de todos os perfis */
 	@GetMapping("/baixo")
 	@Perfis({ Cargo.ESTOQUISTA, Cargo.GERENTE, Cargo.PROPRIETARIO, Cargo.VENDEDOR })
-	public List<Map<String, Object>> estoqueBaixo() {
-		return estoqueService.estoqueBaixo();
+	public ResponseEntity<List<Map<String, Object>>> estoqueBaixo() {
+		return ResponseEntity.ok().body(estoqueService.estoqueBaixo());
 	}
 
 	@GetMapping("/saidas")
-	public List<Map<String, Object>> ultimasSaidas(@RequestParam(defaultValue = "5") int quantidade) {
-		return estoqueService.ultimasSaidas(Math.min(Math.max(quantidade, 1), 50));
+	public ResponseEntity<List<Map<String, Object>>> ultimasSaidas(@RequestParam(defaultValue = "5") int quantidade) {
+		return ResponseEntity.ok().body(estoqueService.ultimasSaidas(Math.min(Math.max(quantidade, 1), 50)));
 	}
 
 	@GetMapping("/localizacoes")
-	public List<LocalEstoqueDTO> localizacoes() {
-		return estoqueService.localizacoes();
+	public ResponseEntity<List<LocalEstoqueDTO>> localizacoes() {
+		return ResponseEntity.ok().body(estoqueService.localizacoes());
 	}
 }

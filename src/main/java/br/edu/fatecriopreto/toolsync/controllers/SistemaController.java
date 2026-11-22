@@ -3,6 +3,7 @@ package br.edu.fatecriopreto.toolsync.controllers;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,17 +26,17 @@ public class SistemaController {
 	private final SistemaService sistemaService;
 
 	@PostMapping("/backup")
-	public Map<String, Object> backup() {
-		return sistemaService.backup();
+	public ResponseEntity<Map<String, Object>> backup() {
+		return ResponseEntity.ok().body(sistemaService.backup());
 	}
 
 	@GetMapping("/backups")
-	public List<Map<String, Object>> backups() {
-		return sistemaService.backups();
+	public ResponseEntity<List<Map<String, Object>>> backups() {
+		return ResponseEntity.ok().body(sistemaService.backups());
 	}
 
 	@PostMapping("/restore")
-	public Map<String, Object> restore(@RequestBody RestoreRequest dados) {
-		return sistemaService.restore(dados.arquivo());
+	public ResponseEntity<Map<String, Object>> restore(@RequestBody RestoreRequest dados) {
+		return ResponseEntity.ok().body(sistemaService.restore(dados.arquivo()));
 	}
 }

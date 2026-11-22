@@ -11,22 +11,26 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.ToString;
 
 /** Historico de precos, gravado pelo trigger tg_Produtos_HistoricoPreco. */
 @Entity
 @Table(name = "HistoricoPrecos")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class HistoricoPrecoEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@ToString.Exclude
+	@EqualsAndHashCode.Exclude
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "produto_id")
 	private ProdutoEntity produto;

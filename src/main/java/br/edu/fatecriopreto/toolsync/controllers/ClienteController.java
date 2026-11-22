@@ -30,34 +30,38 @@ public class ClienteController {
 	private final ClienteService clienteService;
 
 	@GetMapping
-	public List<ClienteDTO> listar() {
-		return clienteService.listar();
+	public ResponseEntity<List<ClienteDTO>> listarTodos() {
+		List<ClienteDTO> lista = clienteService.listarTodos();
+		return ResponseEntity.ok().body(lista);
 	}
 
 	@GetMapping("/{id}")
-	public ClienteDTO buscar(@PathVariable Integer id) {
-		return clienteService.buscar(id);
+	public ResponseEntity<ClienteDTO> buscar(@PathVariable Integer id) {
+		return ResponseEntity.ok().body(clienteService.buscar(id));
 	}
 
+	/** historico de compras (function fc_HistoricoCliente) */
 	@GetMapping("/{id}/historico")
-	public List<Map<String, Object>> historico(@PathVariable Integer id) {
-		return clienteService.historico(id);
+	public ResponseEntity<List<Map<String, Object>>> historico(@PathVariable Integer id) {
+		return ResponseEntity.ok().body(clienteService.historico(id));
 	}
 
 	@PostMapping
-	public ResponseEntity<ClienteDTO> incluir(@RequestBody ClienteDTO dados) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.salvar(null, dados));
+	public ResponseEntity<ClienteDTO> incluir(@RequestBody ClienteDTO cliente) {
+		ClienteDTO novo = clienteService.incluir(cliente);
+		return new ResponseEntity<>(novo, HttpStatus.CREATED);
 	}
 
 	@PutMapping("/{id}")
-	public ClienteDTO editar(@PathVariable Integer id, @RequestBody ClienteDTO dados) {
-		return clienteService.salvar(id, dados);
+	public ResponseEntity<ClienteDTO> editar(@PathVariable Integer id, @RequestBody ClienteDTO cliente) {
+		ClienteDTO atualizado = clienteService.editar(id, cliente);
+		return new ResponseEntity<>(atualizado, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
 	@Perfis(Cargo.PROPRIETARIO)
 	public ResponseEntity<Void> excluir(@PathVariable Integer id) {
 		clienteService.excluir(id);
-		return ResponseEntity.noContent().build();
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

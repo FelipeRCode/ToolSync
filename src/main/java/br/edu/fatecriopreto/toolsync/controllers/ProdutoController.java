@@ -36,58 +36,64 @@ public class ProdutoController {
 	private final ProdutoService produtoService;
 
 	@GetMapping("/produtos")
-	public List<ProdutoDTO> listar(@RequestParam(required = false) String categoria, @RequestParam(required = false) String nome,
-			@RequestParam(required = false) String codigo, @RequestParam(defaultValue = "false") boolean ativos) {
-		return produtoService.listar(categoria, nome, codigo, ativos);
+	public ResponseEntity<List<ProdutoDTO>> listarTodos(@RequestParam(required = false) String categoria,
+			@RequestParam(required = false) String nome, @RequestParam(required = false) String codigo,
+			@RequestParam(defaultValue = "false") boolean ativos) {
+		List<ProdutoDTO> lista = produtoService.listarTodos(categoria, nome, codigo, ativos);
+		return ResponseEntity.ok().body(lista);
 	}
 
 	@GetMapping("/produtos/{id}")
-	public ProdutoDTO buscar(@PathVariable Integer id) {
-		return produtoService.buscar(id);
+	public ResponseEntity<ProdutoDTO> buscar(@PathVariable Integer id) {
+		return ResponseEntity.ok().body(produtoService.buscar(id));
 	}
 
 	@GetMapping("/produtos/codigo/{codigo}")
-	public ProdutoDTO buscarPorCodigo(@PathVariable String codigo) {
-		return produtoService.buscarPorCodigo(codigo);
+	public ResponseEntity<ProdutoDTO> buscarPorCodigo(@PathVariable String codigo) {
+		return ResponseEntity.ok().body(produtoService.buscarPorCodigo(codigo));
 	}
 
 	@PostMapping("/produtos")
 	@Perfis({ Cargo.ESTOQUISTA, Cargo.GERENTE, Cargo.PROPRIETARIO })
-	public ResponseEntity<ProdutoDTO> incluir(@RequestBody ProdutoDTO dados, @RequestAttribute(UsuarioSessao.ATRIBUTO) UsuarioSessao usuario) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(produtoService.salvar(null, dados, usuario));
+	public ResponseEntity<ProdutoDTO> incluir(@RequestBody ProdutoDTO produto, @RequestAttribute(UsuarioSessao.ATRIBUTO) UsuarioSessao usuario) {
+		ProdutoDTO novo = produtoService.incluir(produto, usuario);
+		return new ResponseEntity<>(novo, HttpStatus.CREATED);
 	}
 
 	@PutMapping("/produtos/{id}")
 	@Perfis({ Cargo.ESTOQUISTA, Cargo.GERENTE, Cargo.PROPRIETARIO })
-	public ProdutoDTO editar(@PathVariable Integer id, @RequestBody ProdutoDTO dados, @RequestAttribute(UsuarioSessao.ATRIBUTO) UsuarioSessao usuario) {
-		return produtoService.salvar(id, dados, usuario);
+	public ResponseEntity<ProdutoDTO> editar(@PathVariable Integer id, @RequestBody ProdutoDTO produto,
+			@RequestAttribute(UsuarioSessao.ATRIBUTO) UsuarioSessao usuario) {
+		ProdutoDTO atualizado = produtoService.editar(id, produto, usuario);
+		return new ResponseEntity<>(atualizado, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/produtos/{id}")
 	@Perfis({ Cargo.GERENTE, Cargo.PROPRIETARIO })
-	public Map<String, String> excluir(@PathVariable Integer id) {
-		return Map.of("mensagem", produtoService.excluir(id));
+	public ResponseEntity<Map<String, String>> excluir(@PathVariable Integer id) {
+		String mensagem = produtoService.excluir(id);
+		return ResponseEntity.ok().body(Map.of("mensagem", mensagem));
 	}
 
 	@GetMapping("/categorias")
-	public List<ItemSimplesDTO> categorias() {
-		return produtoService.categorias();
+	public ResponseEntity<List<ItemSimplesDTO>> categorias() {
+		return ResponseEntity.ok().body(produtoService.categorias());
 	}
 
 	@PostMapping("/categorias")
 	@Perfis({ Cargo.ESTOQUISTA, Cargo.GERENTE, Cargo.PROPRIETARIO })
-	public ItemSimplesDTO incluirCategoria(@RequestBody ItemSimplesDTO dados) {
-		return produtoService.incluirCategoria(dados.nome());
+	public ResponseEntity<ItemSimplesDTO> incluirCategoria(@RequestBody ItemSimplesDTO categoria) {
+		return new ResponseEntity<>(produtoService.incluirCategoria(categoria.nome()), HttpStatus.CREATED);
 	}
 
 	@GetMapping("/marcas")
-	public List<ItemSimplesDTO> marcas() {
-		return produtoService.marcas();
+	public ResponseEntity<List<ItemSimplesDTO>> marcas() {
+		return ResponseEntity.ok().body(produtoService.marcas());
 	}
 
 	@PostMapping("/marcas")
 	@Perfis({ Cargo.ESTOQUISTA, Cargo.GERENTE, Cargo.PROPRIETARIO })
-	public ItemSimplesDTO incluirMarca(@RequestBody ItemSimplesDTO dados) {
-		return produtoService.incluirMarca(dados.nome());
+	public ResponseEntity<ItemSimplesDTO> incluirMarca(@RequestBody ItemSimplesDTO marca) {
+		return new ResponseEntity<>(produtoService.incluirMarca(marca.nome()), HttpStatus.CREATED);
 	}
 }

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,22 +26,22 @@ public class RelatorioController {
 
 	/** dashboard de qualquer perfil logado */
 	@GetMapping("/dashboard")
-	public Map<String, Object> dashboard(@RequestAttribute(UsuarioSessao.ATRIBUTO) UsuarioSessao usuario) {
-		return relatorioService.dashboard(usuario);
+	public ResponseEntity<Map<String, Object>> dashboard(@RequestAttribute(UsuarioSessao.ATRIBUTO) UsuarioSessao usuario) {
+		return ResponseEntity.ok().body(relatorioService.dashboard(usuario));
 	}
 
 	@GetMapping("/relatorios/vendas")
 	@Perfis({ Cargo.PROPRIETARIO, Cargo.GERENTE })
-	public List<Map<String, Object>> vendas(@RequestParam(required = false) String vendedor, @RequestParam(required = false) String peca,
+	public ResponseEntity<List<Map<String, Object>>> vendas(@RequestParam(required = false) String vendedor, @RequestParam(required = false) String peca,
 			@RequestParam(required = false) String cliente) {
-		return relatorioService.vendas(vendedor, peca, cliente);
+		return ResponseEntity.ok().body(relatorioService.vendas(vendedor, peca, cliente));
 	}
 
 	@GetMapping("/relatorios/vendedores")
 	@Perfis({ Cargo.PROPRIETARIO, Cargo.GERENTE })
-	public List<Map<String, Object>> vendedores(@RequestParam(required = false) LocalDate inicio, @RequestParam(required = false) LocalDate fim) {
+	public ResponseEntity<List<Map<String, Object>>> vendedores(@RequestParam(required = false) LocalDate inicio, @RequestParam(required = false) LocalDate fim) {
 		LocalDate f = fim == null ? LocalDate.now() : fim;
 		LocalDate i = inicio == null ? f.withDayOfMonth(1) : inicio;
-		return relatorioService.vendedores(i, f);
+		return ResponseEntity.ok().body(relatorioService.vendedores(i, f));
 	}
 }

@@ -10,9 +10,9 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * Tabela mae da heranca (Pessoas). Clientes, Funcionarios e Fornecedores
@@ -22,9 +22,9 @@ import lombok.Setter;
 @Entity
 @Table(name = "Pessoas")
 @Inheritance(strategy = InheritanceType.JOINED)
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class PessoaEntity {
 
 	@Id

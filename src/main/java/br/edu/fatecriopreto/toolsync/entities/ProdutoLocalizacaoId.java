@@ -4,18 +4,14 @@ import java.io.Serializable;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /** Chave composta de ProdutoLocalizacao (produto_id + localizacao_id). */
 @Embeddable
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 public class ProdutoLocalizacaoId implements Serializable {
 
 	private Integer produtoId;

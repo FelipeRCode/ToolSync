@@ -8,9 +8,11 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Funcionario da loja. Herda de PessoaEntity (tabela Funcionarios).
@@ -20,9 +22,11 @@ import lombok.Setter;
 @Entity
 @Table(name = "Funcionarios")
 @PrimaryKeyJoinColumn(name = "pessoa_id")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class FuncionarioEntity extends PessoaEntity {
 
 	private String matricula;

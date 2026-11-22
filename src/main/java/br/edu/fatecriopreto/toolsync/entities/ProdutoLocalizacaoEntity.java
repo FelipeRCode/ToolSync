@@ -7,26 +7,32 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.ToString;
 
 /** Tabela associativa do N x N Produtos x Localizacoes. */
 @Entity
 @Table(name = "ProdutoLocalizacao")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class ProdutoLocalizacaoEntity {
 
 	@EmbeddedId
 	private ProdutoLocalizacaoId id = new ProdutoLocalizacaoId();
 
+	@ToString.Exclude
+	@EqualsAndHashCode.Exclude
 	@ManyToOne(fetch = FetchType.LAZY)
 	@MapsId("produtoId")
 	@JoinColumn(name = "produto_id")
 	private ProdutoEntity produto;
 
+	@ToString.Exclude
+	@EqualsAndHashCode.Exclude
 	@ManyToOne(fetch = FetchType.LAZY)
 	@MapsId("localizacaoId")
 	@JoinColumn(name = "localizacao_id")

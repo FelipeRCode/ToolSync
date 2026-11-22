@@ -44,7 +44,7 @@ public class ProdutoService {
 	private final TransactionTemplate transacao;
 
 	@Transactional(readOnly = true)
-	public List<ProdutoDTO> listar(String categoria, String nome, String codigo, boolean somenteAtivos) {
+	public List<ProdutoDTO> listarTodos(String categoria, String nome, String codigo, boolean somenteAtivos) {
 		return produtoRepository.listarComCategoriaEMarca().stream()
 				.filter(p -> !somenteAtivos || Boolean.TRUE.equals(p.getAtivo()))
 				.filter(p -> vazio(categoria) || p.getCategoria().getNome().equalsIgnoreCase(categoria))
@@ -88,7 +88,15 @@ public class ProdutoService {
 	 * Cadastra ou altera o produto. No cadastro, o estoque inicial entra pela
 	 * procedure sp_EntradaEstoque (gera a movimentacao e o trigger soma o saldo).
 	 */
-	public ProdutoDTO salvar(Integer id, ProdutoDTO dados, UsuarioSessao quem) {
+	public ProdutoDTO incluir(ProdutoDTO dados, UsuarioSessao quem) {
+		return salvar(null, dados, quem);
+	}
+
+	public ProdutoDTO editar(Integer id, ProdutoDTO dados, UsuarioSessao quem) {
+		return salvar(id, dados, quem);
+	}
+
+	private ProdutoDTO salvar(Integer id, ProdutoDTO dados, UsuarioSessao quem) {
 		Integer produtoId = transacao.execute(status -> gravar(id, dados));
 		if (id == null && dados.estoqueInicial() != null && dados.estoqueInicial() > 0) {
 			estoqueService.entrada(produtoId, dados.estoqueInicial(), dados.precoCusto(), dados.fornecedorId(),

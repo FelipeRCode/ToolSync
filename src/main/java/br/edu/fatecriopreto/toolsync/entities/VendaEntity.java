@@ -14,9 +14,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Cabecalho da venda. A venda e gravada pela procedure sp_RegistrarVenda
@@ -24,9 +26,9 @@ import lombok.Setter;
  */
 @Entity
 @Table(name = "Vendas")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class VendaEntity {
 
 	@Id
@@ -35,10 +37,14 @@ public class VendaEntity {
 
 	private LocalDateTime dataVenda;
 
+	@ToString.Exclude
+	@EqualsAndHashCode.Exclude
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "cliente_id")
 	private ClienteEntity cliente;
 
+	@ToString.Exclude
+	@EqualsAndHashCode.Exclude
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "vendedor_id")
 	private FuncionarioEntity vendedor;
@@ -54,9 +60,13 @@ public class VendaEntity {
 	private String motivoCancelamento;
 
 	/** N x N Vendas x Produtos (tabela associativa ItensVenda) */
+	@ToString.Exclude
+	@EqualsAndHashCode.Exclude
 	@OneToMany(mappedBy = "venda")
 	private List<ItemVendaEntity> itens = new ArrayList<>();
 
+	@ToString.Exclude
+	@EqualsAndHashCode.Exclude
 	@OneToMany(mappedBy = "venda")
 	private List<PagamentoVendaEntity> pagamentos = new ArrayList<>();
 }

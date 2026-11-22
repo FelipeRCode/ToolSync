@@ -27,7 +27,7 @@ public class VendaService {
 	private final BancoService banco;
 
 	/** o vendedor so ve as proprias vendas; proprietario e gerente veem todas */
-	public List<Map<String, Object>> listar(UsuarioSessao quem) {
+	public List<Map<String, Object>> listarTodos(UsuarioSessao quem) {
 		if (quem.cargo() == Cargo.VENDEDOR) {
 			return banco.consultar("select * from v_VendasDetalhadas where vendedor_id = ? order by data_venda desc", quem.funcionarioId());
 		}

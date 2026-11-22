@@ -7,7 +7,7 @@ Projeto de Extensão Comunitária (Curricularização) — Fatec São José do R
 | Camada | Tecnologia |
 | --- | --- |
 | Front-end | HTML, CSS e JavaScript, servidos pelo próprio Spring Boot |
-| Back-end | Java 17, Spring Boot 4 (Web MVC + Spring Data JPA / Hibernate 7), Lombok |
+| Back-end | Java 17, Spring Boot 4.0.6 (Web MVC + Spring Data JPA / Hibernate 7), Lombok — mesmo padrão dos projetos da aula (war + ServletInitializer) |
 | Banco de dados | SQL Server, com procedures, triggers, views e functions |
 | Senhas | Hash BCrypt (`spring-security-crypto`) |
 
@@ -46,8 +46,8 @@ ToolSync/
 **2. Ajustar a conexão** em `src/main/resources/application.properties`:
 
 ```properties
-# Autenticação do Windows (padrão). Troque a porta pela porta TCP da sua instância.
-spring.datasource.url=jdbc:sqlserver://localhost:50562;databaseName=ToolSync;encrypt=true;trustServerCertificate=true;integratedSecurity=true
+# Autenticação do Windows (padrão, como no projeto "prova"). Troque máquina\instância e porta pelas da sua.
+spring.datasource.url=jdbc:sqlserver://PRESSSTART\\SQLEXPRESS01:50562;databaseName=ToolSync;encrypt=true;trustServerCertificate=true;integratedSecurity=true
 
 # Ou usuário do SQL Server (laboratório):
 #spring.datasource.url=jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=ToolSync;encrypt=true;trustServerCertificate=true
@@ -69,10 +69,10 @@ select distinct local_tcp_port from sys.dm_exec_connections where local_tcp_port
 
 **4. Abrir** <http://localhost:8080>.
 
-Na autenticação do Windows (`integratedSecurity=true`), o driver precisa da DLL `mssql-jdbc_auth`. O próprio Maven a baixa para `target/native`, e o `spring-boot:run` já a coloca no caminho. Para rodar o `.jar` gerado por `mvnw package`, use:
+Na autenticação do Windows (`integratedSecurity=true`), o driver precisa da DLL `mssql-jdbc_auth`. O próprio Maven a baixa para `target/native`, e o `spring-boot:run` já a coloca no caminho. O `mvnw package` gera um `.war` executável (como nos projetos da aula). Para rodá-lo direto, use:
 
 ```powershell
-java "-Djava.library.path=target/native" -jar target/toolsync-1.0.0.jar
+java "-Djava.library.path=target/native" -jar target/toolsync-0.0.1-SNAPSHOT.war
 ```
 
 ### Usuários de teste

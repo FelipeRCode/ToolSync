@@ -22,7 +22,10 @@ import br.edu.fatecriopreto.toolsync.seguranca.UsuarioSessao;
 import br.edu.fatecriopreto.toolsync.services.VendaService;
 import lombok.RequiredArgsConstructor;
 
-/** Vendas: registrar, consultar, concluir reserva e cancelar. */
+/**
+ * Vendas. Gravacao pelas procedures (sp_RegistrarVenda, sp_ConcluirReserva,
+ * sp_CancelarVenda); consulta pela view v_VendasDetalhadas.
+ */
 @RestController
 @RequestMapping("/api/vendas")
 @RequiredArgsConstructor
@@ -33,31 +36,31 @@ public class VendaController {
 
 	@GetMapping
 	@Perfis({ Cargo.PROPRIETARIO, Cargo.GERENTE, Cargo.VENDEDOR })
-	public List<Map<String, Object>> listar(@RequestAttribute(UsuarioSessao.ATRIBUTO) UsuarioSessao usuario) {
-		return vendaService.listar(usuario);
+	public ResponseEntity<List<Map<String, Object>>> listarTodos(@RequestAttribute(UsuarioSessao.ATRIBUTO) UsuarioSessao usuario) {
+		return ResponseEntity.ok().body(vendaService.listarTodos(usuario));
 	}
 
 	@GetMapping("/{id}")
 	@Perfis({ Cargo.PROPRIETARIO, Cargo.GERENTE, Cargo.VENDEDOR })
-	public Map<String, Object> detalhe(@PathVariable Integer id, @RequestAttribute(UsuarioSessao.ATRIBUTO) UsuarioSessao usuario) {
-		return vendaService.detalhe(id, usuario);
+	public ResponseEntity<Map<String, Object>> detalhe(@PathVariable Integer id, @RequestAttribute(UsuarioSessao.ATRIBUTO) UsuarioSessao usuario) {
+		return ResponseEntity.ok().body(vendaService.detalhe(id, usuario));
 	}
 
 	@PostMapping
-	public ResponseEntity<Map<String, Object>> registrar(@RequestBody VendaRequest dados, @RequestAttribute(UsuarioSessao.ATRIBUTO) UsuarioSessao usuario) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(vendaService.registrar(dados, usuario));
+	public ResponseEntity<Map<String, Object>> incluir(@RequestBody VendaRequest venda, @RequestAttribute(UsuarioSessao.ATRIBUTO) UsuarioSessao usuario) {
+		return new ResponseEntity<>(vendaService.registrar(venda, usuario), HttpStatus.CREATED);
 	}
 
 	@PostMapping("/{id}/concluir")
-	public Map<String, Object> concluirReserva(@PathVariable Integer id, @RequestBody ConcluirReservaRequest dados,
+	public ResponseEntity<Map<String, Object>> concluirReserva(@PathVariable Integer id, @RequestBody ConcluirReservaRequest dados,
 			@RequestAttribute(UsuarioSessao.ATRIBUTO) UsuarioSessao usuario) {
-		return vendaService.concluirReserva(id, dados.pagamentos(), usuario);
+		return ResponseEntity.ok().body(vendaService.concluirReserva(id, dados.pagamentos(), usuario));
 	}
 
 	@PostMapping("/{id}/cancelar")
 	@Perfis({ Cargo.PROPRIETARIO, Cargo.GERENTE })
-	public Map<String, Object> cancelar(@PathVariable Integer id, @RequestBody CancelarVendaRequest dados,
+	public ResponseEntity<Map<String, Object>> cancelar(@PathVariable Integer id, @RequestBody CancelarVendaRequest dados,
 			@RequestAttribute(UsuarioSessao.ATRIBUTO) UsuarioSessao usuario) {
-		return vendaService.cancelar(id, dados.motivo(), usuario);
+		return ResponseEntity.ok().body(vendaService.cancelar(id, dados.motivo(), usuario));
 	}
 }

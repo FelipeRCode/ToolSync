@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import br.edu.fatecriopreto.toolsync.entities.*;
 
+@Repository
 public interface ItemVendaRepository extends JpaRepository<ItemVendaEntity, Integer> {
 
 	@Query("select i from ItemVendaEntity i join fetch i.produto where i.venda.id = :vendaId order by i.id")

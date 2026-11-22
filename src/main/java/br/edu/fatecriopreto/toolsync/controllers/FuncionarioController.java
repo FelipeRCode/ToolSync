@@ -22,7 +22,7 @@ import br.edu.fatecriopreto.toolsync.seguranca.UsuarioSessao;
 import br.edu.fatecriopreto.toolsync.services.FuncionarioService;
 import lombok.RequiredArgsConstructor;
 
-/** CRUD de funcionarios (Proprietario e Gerente). */
+/** CRUD de funcionarios (Proprietario e Gerente). O cadastro usa a procedure sp_CadastrarFuncionario. */
 @RestController
 @RequestMapping("/api/funcionarios")
 @RequiredArgsConstructor
@@ -32,29 +32,34 @@ public class FuncionarioController {
 	private final FuncionarioService funcionarioService;
 
 	@GetMapping
-	public List<FuncionarioDTO> listar() {
-		return funcionarioService.listar();
+	public ResponseEntity<List<FuncionarioDTO>> listarTodos() {
+		List<FuncionarioDTO> lista = funcionarioService.listarTodos();
+		return ResponseEntity.ok().body(lista);
 	}
 
 	@GetMapping("/{id}")
-	public FuncionarioDTO buscar(@PathVariable Integer id) {
-		return funcionarioService.buscar(id);
+	public ResponseEntity<FuncionarioDTO> buscar(@PathVariable Integer id) {
+		return ResponseEntity.ok().body(funcionarioService.buscar(id));
 	}
 
 	@PostMapping
-	public ResponseEntity<FuncionarioDTO> incluir(@RequestBody FuncionarioDTO dados,
+	public ResponseEntity<FuncionarioDTO> incluir(@RequestBody FuncionarioDTO funcionario,
 			@RequestAttribute(UsuarioSessao.ATRIBUTO) UsuarioSessao usuario) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioService.incluir(dados, usuario));
+		FuncionarioDTO novo = funcionarioService.incluir(funcionario, usuario);
+		return new ResponseEntity<>(novo, HttpStatus.CREATED);
 	}
 
 	@PutMapping("/{id}")
-	public FuncionarioDTO editar(@PathVariable Integer id, @RequestBody FuncionarioDTO dados,
+	public ResponseEntity<FuncionarioDTO> editar(@PathVariable Integer id, @RequestBody FuncionarioDTO funcionario,
 			@RequestAttribute(UsuarioSessao.ATRIBUTO) UsuarioSessao usuario) {
-		return funcionarioService.editar(id, dados, usuario);
+		FuncionarioDTO atualizado = funcionarioService.editar(id, funcionario, usuario);
+		return new ResponseEntity<>(atualizado, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public Map<String, String> excluir(@PathVariable Integer id, @RequestAttribute(UsuarioSessao.ATRIBUTO) UsuarioSessao usuario) {
-		return Map.of("mensagem", funcionarioService.excluir(id, usuario));
+	public ResponseEntity<Map<String, String>> excluir(@PathVariable Integer id,
+			@RequestAttribute(UsuarioSessao.ATRIBUTO) UsuarioSessao usuario) {
+		String mensagem = funcionarioService.excluir(id, usuario);
+		return ResponseEntity.ok().body(Map.of("mensagem", mensagem));
 	}
 }

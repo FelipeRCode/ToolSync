@@ -32,27 +32,31 @@ public class FornecedorController {
 
 	@GetMapping
 	@Perfis({ Cargo.PROPRIETARIO, Cargo.GERENTE, Cargo.ESTOQUISTA })
-	public List<FornecedorDTO> listar(@RequestParam(defaultValue = "false") boolean ativos) {
-		return fornecedorService.listar(ativos);
+	public ResponseEntity<List<FornecedorDTO>> listarTodos(@RequestParam(defaultValue = "false") boolean ativos) {
+		List<FornecedorDTO> lista = fornecedorService.listarTodos(ativos);
+		return ResponseEntity.ok().body(lista);
 	}
 
 	@GetMapping("/{id}")
-	public FornecedorDTO buscar(@PathVariable Integer id) {
-		return fornecedorService.buscar(id);
+	public ResponseEntity<FornecedorDTO> buscar(@PathVariable Integer id) {
+		return ResponseEntity.ok().body(fornecedorService.buscar(id));
 	}
 
 	@PostMapping
-	public ResponseEntity<FornecedorDTO> incluir(@RequestBody FornecedorDTO dados) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(fornecedorService.salvar(null, dados));
+	public ResponseEntity<FornecedorDTO> incluir(@RequestBody FornecedorDTO fornecedor) {
+		FornecedorDTO novo = fornecedorService.incluir(fornecedor);
+		return new ResponseEntity<>(novo, HttpStatus.CREATED);
 	}
 
 	@PutMapping("/{id}")
-	public FornecedorDTO editar(@PathVariable Integer id, @RequestBody FornecedorDTO dados) {
-		return fornecedorService.salvar(id, dados);
+	public ResponseEntity<FornecedorDTO> editar(@PathVariable Integer id, @RequestBody FornecedorDTO fornecedor) {
+		FornecedorDTO atualizado = fornecedorService.editar(id, fornecedor);
+		return new ResponseEntity<>(atualizado, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public Map<String, String> excluir(@PathVariable Integer id) {
-		return Map.of("mensagem", fornecedorService.excluir(id));
+	public ResponseEntity<Map<String, String>> excluir(@PathVariable Integer id) {
+		String mensagem = fornecedorService.excluir(id);
+		return ResponseEntity.ok().body(Map.of("mensagem", mensagem));
 	}
 }
