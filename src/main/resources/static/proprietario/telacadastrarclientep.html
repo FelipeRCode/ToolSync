@@ -1,0 +1,144 @@
+<!-- ==========================================================================
+     ARQUIVO: telacadastrarclientep.html
+     DESCRIÇÃO: Formulário e lógica para cadastro de novos clientes (perfil Proprietário).
+     ========================================================================== -->
+<!-- Declaração do tipo de documento HTML5 -->
+<!DOCTYPE html>
+<!-- Elemento raiz da página HTML definido em Português do Brasil -->
+<html lang="pt-BR">
+<!-- Cabeçalho técnico da página (metadados, título e importação de estilos) -->
+<head>
+    <!-- Define a codificação de caracteres como UTF-8 (suporte a acentos) -->
+    <meta charset="UTF-8">
+    <!-- Configura a responsividade para diferentes tamanhos de tela -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Define o título exibido na aba do navegador -->
+    <title>ToolSync - Cadastrar Cliente (Proprietário)</title>
+    <!-- Importa a folha de estilos CSS específica desta tela -->
+    <link rel="stylesheet" href="telacadastrarclientep.css">
+    <!-- Importa a biblioteca externa de ícones Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<!-- Início do corpo visível da página -->
+<body>
+    <!-- Container principal que organiza o layout em barra lateral + área de conteúdo -->
+    <div class="app-layout">
+        <!-- Barra lateral fixa de navegação e identificação do usuário -->
+        <aside class="sidebar">
+            <!-- Logotipo e subtítulo do sistema ToolSync no topo da barra lateral -->
+            <div class="brand">
+                <h2>Tool<span class="orange">Sync</span></h2>
+                <p>Sistema de Gestão de Ferramentas</p>
+            </div>
+
+            <!-- Bloco de exibição do avatar, nome e cargo do usuário logado -->
+            <div class="user-profile">
+                <div class="avatar-circle">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <h3 id="userNameDisplay">Ana Beatriz</h3>
+                <p id="userRoleDisplay">Proprietário</p>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="telainicialp.html" class="nav-btn">Dashboard</a>
+                <a href="telacadastrop.html" class="nav-btn active">Cadastrar</a>
+                <a href="telavendap.html" class="nav-btn">Venda</a>
+                <a href="telaestoquep.html" class="nav-btn">Estoque</a>
+                <a href="telarelatoriosp.html" class="nav-btn">Relatórios</a>
+                <div class="nav-bottom">
+                    <!-- Botão/link para encerrar a sessão e retornar à tela de login -->
+                    <a href="../login.html" class="nav-btn logout-btn" id="btnLogout">Sair</a>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main-content animated-fadeIn">
+            <!-- Botão de ação identificado por "btnSalvarCliente" -->
+            <button class="btn-top-save" id="btnSalvarCliente">
+                <i class="fa-solid fa-floppy-disk"></i> Salvar
+            </button>
+
+            <h1 class="section-title">Cadastrar Cliente</h1>
+
+            <!-- Formulário de entrada de dados do usuário -->
+            <form id="formCadCliente" class="form-box">
+                <div class="form-row-group">
+                    <div style="flex: 2;">
+                        <div class="field-label">Nome Completo</div>
+                        <!-- Campo de entrada/seleção identificado por "cliNome" -->
+                        <input type="text" class="input-styled" id="cliNome" placeholder="Nome completo do cliente..." required>
+                    </div>
+                    <div style="flex: 1.2;">
+                        <div class="field-label">CPF</div>
+                        <!-- Campo de entrada/seleção identificado por "cliCPF" -->
+                        <input type="text" class="input-styled" id="cliCPF" placeholder="000.000.000-00" required>
+                    </div>
+                    <div style="flex: 0.5;">
+                        <div class="field-label">Nº</div>
+                        <!-- Campo de entrada/seleção identificado por "cliCod" -->
+                        <input type="text" class="input-styled" id="cliCod" readonly style="background:#e0e0e0; text-align:center;">
+                    </div>
+                </div>
+
+                <div class="field-label" style="margin-top:5px;">Endereço</div>
+
+                <div class="form-row-group">
+                    <div style="flex: 2;">
+                        <span class="sub-label">Rua</span>
+                        <!-- Campo de entrada/seleção identificado por "cliRua" -->
+                        <input type="text" class="input-styled" id="cliRua" placeholder="Rua / Avenida">
+                    </div>
+                    <div style="flex: 1.5;">
+                        <span class="sub-label">Bairro</span>
+                        <!-- Campo de entrada/seleção identificado por "cliBairro" -->
+                        <input type="text" class="input-styled" id="cliBairro" placeholder="Bairro">
+                    </div>
+                </div>
+
+                <div class="form-row-group">
+                    <div style="flex: 1;">
+                        <span class="sub-label">Número</span>
+                        <!-- Campo de entrada/seleção identificado por "cliNum" -->
+                        <input type="text" class="input-styled" id="cliNum" placeholder="Nº">
+                    </div>
+                    <div style="flex: 1.2;">
+                        <span class="sub-label">CEP</span>
+                        <!-- Campo de entrada/seleção identificado por "cliCEP" -->
+                        <input type="text" class="input-styled" id="cliCEP" placeholder="00000-000">
+                    </div>
+                    <div style="flex: 1.8;">
+                        <span class="sub-label">Cidade</span>
+                        <!-- Campo de entrada/seleção identificado por "cliCidade" -->
+                        <input type="text" class="input-styled" id="cliCidade" placeholder="Cidade">
+                    </div>
+                    <div style="flex: 0.6;">
+                        <span class="sub-label">UF</span>
+                        <!-- Campo de entrada/seleção identificado por "cliUF" -->
+                        <input type="text" class="input-styled" id="cliUF" maxlength="2" placeholder="SP">
+                    </div>
+                </div>
+
+                <div class="form-row-group" style="margin-top:5px;">
+                    <div style="flex: 1;">
+                        <div class="field-label">Celular / Telefone</div>
+                        <!-- Campo de entrada/seleção identificado por "cliTelefone" -->
+                        <input type="text" class="input-styled" id="cliTelefone" placeholder="(00) 00000-0000">
+                    </div>
+                    <div style="flex: 1.8;">
+                        <div class="field-label">E-mail</div>
+                        <!-- Campo de entrada/seleção identificado por "cliEmail" -->
+                        <input type="email" class="input-styled" id="cliEmail" placeholder="cliente@email.com">
+                    </div>
+                </div>
+            </form>
+
+            <a href="telacadastrop.html" class="btn-voltar-fixed">&larr; Voltar</a>
+        </main>
+    </div>
+    <!-- Biblioteca compartilhada: API do back-end, sessão e lógica das telas -->
+    <script src="../js/toolsync.js"></script>
+    <!-- Importa o arquivo JavaScript responsável pela interatividade desta tela -->
+    <script src="telacadastrarclientep.js"></script>
+</body>
+</html>

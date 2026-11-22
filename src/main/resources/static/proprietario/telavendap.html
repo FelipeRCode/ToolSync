@@ -1,0 +1,79 @@
+<!-- ==========================================================================
+     ARQUIVO: telavendap.html
+     DESCRIÇÃO: Menu principal da área de vendas do Proprietário (Nova Venda e Consultar Vendas).
+     ========================================================================== -->
+<!-- Declaração do tipo de documento HTML5 -->
+<!DOCTYPE html>
+<!-- Elemento raiz da página HTML definido em Português do Brasil -->
+<html lang="pt-BR">
+<!-- Cabeçalho técnico da página (metadados, título e importação de estilos) -->
+<head>
+    <!-- Define a codificação de caracteres como UTF-8 (suporte a acentos) -->
+    <meta charset="UTF-8">
+    <!-- Configura a responsividade para diferentes tamanhos de tela -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Define o título exibido na aba do navegador -->
+    <title>ToolSync - Venda (Proprietário)</title>
+    <!-- Importa a folha de estilos CSS específica desta tela -->
+    <link rel="stylesheet" href="telavendap.css">
+    <!-- Importa a biblioteca externa de ícones Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<!-- Início do corpo visível da página -->
+<body>
+    <!-- Container principal que organiza o layout em barra lateral + área de conteúdo -->
+    <div class="app-layout">
+        <!-- Barra lateral fixa de navegação e identificação do usuário -->
+        <aside class="sidebar">
+            <!-- Logotipo e subtítulo do sistema ToolSync no topo da barra lateral -->
+            <div class="brand">
+                <h2>Tool<span class="orange">Sync</span></h2>
+                <p>Sistema de Gestão de Ferramentas</p>
+            </div>
+
+            <!-- Bloco de exibição do avatar, nome e cargo do usuário logado -->
+            <div class="user-profile">
+                <div class="avatar-circle">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <h3 id="userNameDisplay">Ana Beatriz</h3>
+                <p id="userRoleDisplay">Proprietário</p>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="telainicialp.html" class="nav-btn">Dashboard</a>
+                <a href="telacadastrop.html" class="nav-btn">Cadastrar</a>
+                <a href="telavendap.html" class="nav-btn active">Venda</a>
+                <a href="telaestoquep.html" class="nav-btn">Estoque</a>
+                <a href="telarelatoriosp.html" class="nav-btn">Relatórios</a>
+                <div class="nav-bottom">
+                    <!-- Botão/link para encerrar a sessão e retornar à tela de login -->
+                    <a href="../login.html" class="nav-btn logout-btn" id="btnLogout">Sair</a>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main-content animated-fadeIn">
+            <span class="page-tag">Venda</span>
+
+            <div class="hub-container">
+                <a href="telanovavendap.html" class="hub-card">
+                    <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                    <span>Nova<br>venda</span>
+                </a>
+
+                <a href="telaconsultarvendasp.html" class="hub-card">
+                    <i class="fa-solid fa-magnifying-glass-dollar"></i>
+                    <span>Consultar<br>vendas</span>
+                </a>
+
+                <a href="telainicialp.html" class="btn-voltar-fixed">&larr; Voltar</a>
+            </div>
+        </main>
+    </div>
+    <!-- Biblioteca compartilhada: API do back-end, sessão e lógica das telas -->
+    <script src="../js/toolsync.js"></script>
+    <!-- Importa o arquivo JavaScript responsável pela interatividade desta tela -->
+    <script src="telavendap.js"></script>
+</body>
+</html>

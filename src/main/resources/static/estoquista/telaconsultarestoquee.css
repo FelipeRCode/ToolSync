@@ -1,0 +1,371 @@
+/* ==========================================================================
+   FOLHA DE ESTILOS: telaconsultarestoquee.css
+   DESCRIÇÃO: Tela de consulta, busca e visualização detalhada da quantidade e localização dos produtos no armazém.
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Configura a altura total da janela (100vh) e a cor de fundo base da aplicação */
+html, body {
+    height: 100vh;
+    overflow: hidden;
+    background-color: #c4c4c4;
+}
+
+/* Layout flexível principal dividindo a tela entre barra lateral e conteúdo */
+.app-layout {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 240px;
+    background-color: #b8b8b8;
+    border-right: 2px solid #a0a0a0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 12px;
+    height: 100vh;
+    flex-shrink: 0;
+}
+
+/* Estilização da área do logotipo ToolSync */
+.brand {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* Estilização de sub-elemento dentro de ".brand h2" */
+.brand h2 {
+    font-size: 28px;
+    font-weight: 900;
+    color: #0b1736;
+}
+
+/* Estilização de sub-elemento dentro de ".brand .orange" */
+.brand .orange {
+    color: #ff6600;
+}
+
+/* Estilização de sub-elemento dentro de ".brand p" */
+.brand p {
+    font-size: 8px;
+    font-weight: bold;
+    color: #0b1736;
+}
+
+/* Estilização do cartão de perfil do usuário na barra lateral */
+.user-profile {
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+/* Círculo de destaque para o ícone de avatar do usuário */
+.avatar-circle {
+    width: 70px;
+    height: 70px;
+    background-color: #051029;
+    border-radius: 50%;
+    margin: 0 auto 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #b8b8b8;
+    font-size: 42px;
+}
+
+/* Estilização de sub-elemento dentro de ".user-profile h3" */
+.user-profile h3 {
+    font-size: 16px;
+    color: #000;
+    font-weight: bold;
+}
+
+/* Estilização de sub-elemento dentro de ".user-profile p" */
+.user-profile p {
+    font-size: 13px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".nav-menu" */
+.nav-menu {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".nav-btn" */
+.nav-btn {
+    width: 100%;
+    padding: 8px;
+    background-color: #dedede;
+    border: 1px solid #b5b5b5;
+    color: #000;
+    font-weight: bold;
+    font-size: 13px;
+    cursor: pointer;
+    border-radius: 2px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+}
+
+/* Define o efeito visual de hover (passar o mouse) para ".nav-btn" */
+.nav-btn:hover {
+    background-color: #ebebeb;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".nav-btn.active" */
+.nav-btn.active {
+    background-color: #ff6600;
+    border-color: #d95700;
+    color: #000;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".nav-bottom" */
+.nav-bottom {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    padding-top: 10px;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: 15px 24px;
+    background-color: #c4c4c4;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".page-top-bar" */
+.page-top-bar {
+    margin-bottom: 10px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".page-top-bar h1" */
+.page-top-bar h1 {
+    font-size: 28px;
+    font-weight: 900;
+    color: #0b1736;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".section-bar" */
+.section-bar {
+    background-color: #7a7a7a;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 13px;
+    padding: 4px 10px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".filters-box" */
+.filters-box {
+    background-color: #b5b5b5;
+    padding: 10px 14px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 1px solid #999;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".filter-group" */
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".filter-group label" */
+.filter-group label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #000;
+}
+
+.filter-group select,
+/* Define as regras de estilo visual e posicionamento para ".filter-group input" */
+.filter-group input {
+    background-color: #ffffff;
+    border: 1px solid #888;
+    padding: 4px 8px;
+    font-size: 13px;
+    outline: none;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".filter-group select" */
+.filter-group select {
+    min-width: 150px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".input-periodo" */
+.input-periodo {
+    width: 95px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".input-codigo" */
+.input-codigo {
+    width: 160px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".btn-buscar" */
+.btn-buscar {
+    background-color: #7a7a7a;
+    color: #ffffff;
+    border: none;
+    padding: 5px 14px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Define o efeito visual de hover (passar o mouse) para ".btn-buscar" */
+.btn-buscar:hover {
+    background-color: #5e5e5e;
+}
+
+/* Área de Resultados Dinâmicos */
+.resultado-container {
+    margin-top: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".produto-info-card" */
+.produto-info-card {
+    background-color: #ffffff;
+    border: 1px solid #8c8c8c;
+    border-radius: 3px;
+    padding: 16px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".produto-info-header" */
+.produto-info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #0b1736;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".produto-info-header h2" */
+.produto-info-header h2 {
+    font-size: 18px;
+    color: #0b1736;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".status-pill" */
+.status-pill {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".status-ativo" */
+.status-ativo {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".status-baixo" */
+.status-baixo {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".produto-detalhes-grid" */
+.produto-detalhes-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    font-size: 13px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".detalhe-item" */
+.detalhe-item {
+    background-color: #f3f4f6;
+    padding: 8px 10px;
+    border-radius: 2px;
+    border-left: 3px solid #ff6600;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".detalhe-item span" */
+.detalhe-item span {
+    display: block;
+    font-size: 11px;
+    color: #555;
+    margin-bottom: 2px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".detalhe-item strong" */
+.detalhe-item strong {
+    color: #000;
+    font-size: 14px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".locacoes-box" */
+.locacoes-box {
+    background-color: #ffffff;
+    border: 1px solid #8c8c8c;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".locacoes-box h3" */
+.locacoes-box h3 {
+    background-color: #0b1736;
+    color: #ffffff;
+    font-size: 14px;
+    padding: 8px 14px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".locacoes-table" */
+.locacoes-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.locacoes-table th,
+/* Estilização de sub-elemento dentro de ".locacoes-table td" */
+.locacoes-table td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid #dcdcdc;
+}
+
+/* Estilização de sub-elemento dentro de ".locacoes-table th" */
+.locacoes-table th {
+    background-color: #e5e7eb;
+    color: #111;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".aviso-nao-encontrado" */
+.aviso-nao-encontrado {
+    background-color: #ffffff;
+    border-left: 4px solid #d90000;
+    padding: 14px 18px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}

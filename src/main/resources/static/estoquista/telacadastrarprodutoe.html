@@ -1,0 +1,224 @@
+<!-- ==========================================================================
+     ARQUIVO: telacadastrarprodutoe.html
+     DESCRIÇÃO: Formulário e lógica de cadastro de novos produtos no estoque, incluindo pré-visualização de imagem e locação.
+     ========================================================================== -->
+<!-- Declaração do tipo de documento HTML5 -->
+<!DOCTYPE html>
+<!-- Elemento raiz da página HTML definido em Português do Brasil -->
+<html lang="pt-BR">
+<!-- Cabeçalho técnico da página (metadados, título e importação de estilos) -->
+<head>
+    <!-- Define a codificação de caracteres como UTF-8 (suporte a acentos) -->
+    <meta charset="UTF-8">
+    <!-- Configura a responsividade para diferentes tamanhos de tela -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Define o título exibido na aba do navegador -->
+    <title>ToolSync - Cadastrar Produto</title>
+    <!-- Importa a folha de estilos CSS específica desta tela -->
+    <link rel="stylesheet" href="telacadastrarprodutoe.css">
+    <!-- Importa a biblioteca externa de ícones Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<!-- Início do corpo visível da página -->
+<body>
+    <!-- Container principal que organiza o layout em barra lateral + área de conteúdo -->
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <!-- Barra lateral fixa de navegação e identificação do usuário -->
+        <aside class="sidebar">
+            <!-- Logotipo e subtítulo do sistema ToolSync no topo da barra lateral -->
+            <div class="brand">
+                <h2>Tool<span class="orange">Sync</span></h2>
+                <p>Sistema de Gestão de Ferramentas</p>
+            </div>
+
+            <!-- Bloco de exibição do avatar, nome e cargo do usuário logado -->
+            <div class="user-profile">
+                <div class="avatar-circle">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <h3 id="userNameDisplay">Pedro Henrique</h3>
+                <p id="userRoleDisplay">Estoquista 01</p>
+            </div>
+
+            <nav class="nav-menu">
+                <button class="nav-btn" onclick="window.location.href='telainiciale.html'">Dashboard</button>
+                <button class="nav-btn active" onclick="window.location.href='telacadastroe.html'">Cadastrar</button>
+                <button class="nav-btn" onclick="window.location.href='telaconsultarestoquee.html'">Estoque</button>
+
+                <div class="nav-bottom">
+                    <!-- Botão de ação identificado por "btnLogout" -->
+                    <button class="nav-btn logout-btn" id="btnLogout">Sair</button>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <!-- Área principal à direita onde o conteúdo dinâmico da tela é exibido -->
+        <main class="main-content">
+            <div class="page-top-bar">
+                <h1>Cadastrar Produto</h1>
+                <!-- Botão de ação identificado por "btnSalvarProduto" -->
+                <button type="button" class="btn-salvar" id="btnSalvarProduto">
+                    <i class="fa-solid fa-floppy-disk"></i> Salvar
+                </button>
+            </div>
+
+            <!-- Formulário de entrada de dados do usuário -->
+            <form id="formCadastrarProduto" class="product-form">
+                <!-- Seção Produto -->
+                <div class="section-bar">Produto</div>
+                <div class="form-section">
+                    <div class="form-row">
+                        <div class="field-group">
+                            <label for="codigo">Código</label>
+                            <!-- Campo de entrada/seleção identificado por "codigo" -->
+                            <input type="text" id="codigo" class="input-sm">
+                        </div>
+                        <div class="field-group">
+                            <label for="categoria">Categoria</label>
+                            <!-- Campo de entrada/seleção identificado por "categoria" -->
+                            <input type="text" id="categoria" class="input-md">
+                            <button type="button" class="btn-mini-add" onclick="adicionarRapido('Categoria')">Add. Categoria +</button>
+                        </div>
+                        <div class="field-group flex-grow">
+                            <label for="nome">Nome</label>
+                            <!-- Campo de entrada/seleção identificado por "nome" -->
+                            <input type="text" id="nome" class="input-full" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="field-group">
+                            <label for="marca">Marca</label>
+                            <!-- Campo de entrada/seleção identificado por "marca" -->
+                            <input type="text" id="marca" class="input-md">
+                            <button type="button" class="btn-mini-add" onclick="adicionarRapido('Marca')">Add. Marca</button>
+                        </div>
+                        <div class="field-group">
+                            <label for="ean">Código EAN</label>
+                            <!-- Campo de entrada/seleção identificado por "ean" -->
+                            <input type="text" id="ean" class="input-md">
+                        </div>
+                        <div class="field-group">
+                            <label for="sku">SKU</label>
+                            <!-- Campo de entrada/seleção identificado por "sku" -->
+                            <input type="text" id="sku" class="input-sm">
+                        </div>
+                        <div class="field-group">
+                            <label for="ncm">NCM</label>
+                            <!-- Campo de entrada/seleção identificado por "ncm" -->
+                            <input type="text" id="ncm" class="input-sm">
+                        </div>
+                        <div class="field-group">
+                            <label for="fornecedor">Fornecedor</label>
+                            <!-- Campo de entrada/seleção identificado por "fornecedor" -->
+                            <input type="text" id="fornecedor" class="input-md">
+                            <button type="button" class="btn-mini-add" onclick="adicionarRapido('Fornecedor')">Add. Fornecedor</button>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="field-group">
+                            <label for="precoVenda">Preço de venda</label>
+                            <!-- Campo de entrada/seleção identificado por "precoVenda" -->
+                            <input type="text" id="precoVenda" class="input-sm" placeholder="R$ 0,00">
+                        </div>
+                        <div class="field-group">
+                            <label for="precoCusto">Preço de custo</label>
+                            <!-- Campo de entrada/seleção identificado por "precoCusto" -->
+                            <input type="text" id="precoCusto" class="input-sm" placeholder="R$ 0,00">
+                        </div>
+                        <div class="field-group">
+                            <label for="unidadeCompra">Unidade de compra</label>
+                            <!-- Campo de entrada/seleção identificado por "unidadeCompra" -->
+                            <input type="text" id="unidadeCompra" class="input-sm" placeholder="UN / CX">
+                        </div>
+                        <div class="field-group">
+                            <label for="unidadeVenda">Unidade de venda</label>
+                            <!-- Campo de entrada/seleção identificado por "unidadeVenda" -->
+                            <input type="text" id="unidadeVenda" class="input-sm" placeholder="UN">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção Descrição -->
+                <div class="section-bar">Descrição</div>
+                <div class="form-section description-row">
+                    <label for="descricao">Descrição</label>
+                    <!-- Campo de entrada/seleção identificado por "descricao" -->
+                    <textarea id="descricao" rows="3"></textarea>
+                </div>
+
+                <!-- Seção Inferior: Imagem (Esquerda) + Dimensões & Estoque (Direita) -->
+                <div class="bottom-grid">
+                    <div class="image-upload-area">
+                        <div class="image-preview" id="imagePreview">
+                            <i class="fa-solid fa-image"></i>
+                        </div>
+                        <!-- Campo de entrada/seleção identificado por "inputImagem" -->
+                        <input type="file" id="inputImagem" accept="image/*" hidden>
+                        <button type="button" class="btn-add-img" onclick="document.getElementById('inputImagem').click()">
+                            <span class="plus-circle"><i class="fa-solid fa-plus"></i></span> Add
+                        </button>
+                    </div>
+
+                    <div class="right-specs">
+                        <div class="section-bar">Dimensões</div>
+                        <div class="form-section">
+                            <div class="form-row">
+                                <span class="sub-label">Dimensões:</span>
+                                <div class="field-group">
+                                    <label for="largura">Largura</label>
+                                    <!-- Campo de entrada/seleção identificado por "largura" -->
+                                    <input type="text" id="largura" class="input-xs" placeholder="cm">
+                                </div>
+                                <div class="field-group">
+                                    <label for="altura">Altura</label>
+                                    <!-- Campo de entrada/seleção identificado por "altura" -->
+                                    <input type="text" id="altura" class="input-xs" placeholder="cm">
+                                </div>
+                                <div class="field-group">
+                                    <label for="comprimento">Comprimento</label>
+                                    <!-- Campo de entrada/seleção identificado por "comprimento" -->
+                                    <input type="text" id="comprimento" class="input-xs" placeholder="cm">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-bar">Estoque</div>
+                        <div class="form-section stock-status-grid">
+                            <div class="stock-inputs">
+                                <div class="field-group space-between">
+                                    <label for="estoqueAtual">Estoque atual</label>
+                                    <!-- Campo de entrada/seleção identificado por "estoqueAtual" -->
+                                    <input type="number" id="estoqueAtual" class="input-xs" min="0">
+                                </div>
+                                <div class="field-group space-between">
+                                    <label for="estoqueMinimo">Estoque mínimo</label>
+                                    <!-- Campo de entrada/seleção identificado por "estoqueMinimo" -->
+                                    <input type="number" id="estoqueMinimo" class="input-xs" min="0">
+                                </div>
+                            </div>
+
+                            <div class="status-box">
+                                <span class="status-title">Status</span>
+                                <div class="status-toggle">
+                                    <!-- Botão de ação identificado por "btnAtivo" -->
+                                    <button type="button" class="status-btn active" id="btnAtivo" onclick="setStatus('Ativo')">Ativo</button>
+                                    <!-- Botão de ação identificado por "btnInativo" -->
+                                    <button type="button" class="status-btn" id="btnInativo" onclick="setStatus('Inativo')">Inativo</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </main>
+    </div>
+    <!-- Biblioteca compartilhada: API do back-end, sessão e lógica das telas -->
+    <script src="../js/toolsync.js"></script>
+    <!-- Importa o arquivo JavaScript responsável pela interatividade desta tela -->
+    <script src="telacadastrarprodutoe.JS"></script>
+</body>
+</html>

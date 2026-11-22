@@ -1,0 +1,187 @@
+/* ==========================================================================
+   FOLHA DE ESTILOS: login.css
+   DESCRIÇÃO: Tela inicial de autenticação do sistema ToolSync, responsável por validar o perfil do usuário e redirecioná-lo ao painel correspondente.
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Estilização base do corpo da página (cor de fundo, alinhamento e dimensões) */
+body {
+    background-color: #d8d8d8;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".main-wrapper" */
+.main-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".brand-side" */
+.brand-side {
+    text-align: left;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".brand-title" */
+.brand-title {
+    font-size: 80px;
+    font-weight: 900;
+    color: #0b1736;
+    line-height: 0.9;
+    letter-spacing: -2px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".brand-title .orange" */
+.brand-title .orange {
+    color: #ff6600;
+    display: block;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".brand-subtitle" */
+.brand-subtitle {
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #0b1736;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".login-card" */
+.login-card {
+    background-color: #051029;
+    width: 520px;
+    padding: 35px 45px;
+    border-radius: 4px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+/* Define as regras de estilo visual e posicionamento para ".login-header" */
+.login-header {
+    text-align: center;
+    color: #ff6600;
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".form-row" */
+.form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    gap: 12px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".icon-box" */
+.icon-box {
+    width: 45px;
+    height: 45px;
+    border: 2px solid #ff6600;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #ff6600;
+    font-size: 20px;
+    position: relative;
+    flex-shrink: 0;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".stack-icon" */
+.stack-icon {
+    border-radius: 50%;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".stack-icon .stars" */
+.stack-icon .stars {
+    font-size: 9px;
+    line-height: 8px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".form-row label" */
+.form-row label {
+    color: #ff6600;
+    font-weight: bold;
+    font-size: 18px;
+    width: 75px;
+    flex-shrink: 0;
+}
+
+.form-row input[type="text"],
+/* Define as regras de estilo visual e posicionamento para ".password-field-wrapper input" */
+.password-field-wrapper input {
+    width: 100%;
+    height: 38px;
+    padding: 0 12px;
+    font-size: 15px;
+    border: none;
+    outline: none;
+    background-color: #ffffff;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".password-field-wrapper" */
+.password-field-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".password-field-wrapper button" */
+.password-field-wrapper button {
+    position: absolute;
+    right: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #333;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".forgot-wrapper" */
+.forgot-wrapper {
+    text-align: right;
+    margin-bottom: 25px;
+    padding-right: 5px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".forgot-link" */
+.forgot-link {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".btn-wrapper" */
+.btn-wrapper {
+    text-align: center;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".btn-entrar" */
+.btn-entrar {
+    background-color: #ff6600;
+    color: #051029;
+    border: none;
+    font-size: 42px;
+    font-weight: 900;
+    padding: 6px 50px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.1s, background-color 0.2s;
+}
+
+/* Define o efeito visual de hover (passar o mouse) para ".btn-entrar" */
+.btn-entrar:hover {
+    background-color: #e65c00;
+}

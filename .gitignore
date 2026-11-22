@@ -1,0 +1,10 @@
+target/
+*.class
+!versao-console/bin/**/*.class
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+banco/_colar_no_word/

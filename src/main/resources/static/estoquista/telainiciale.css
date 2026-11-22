@@ -1,0 +1,364 @@
+/* ==========================================================================
+   FOLHA DE ESTILOS: telainiciale.css
+   DESCRIÇÃO: Painel principal (Dashboard) do Estoquista com resumo de alertas de estoque baixo e acesso rápido às funções.
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Configura a altura total da janela (100vh) e a cor de fundo base da aplicação */
+html, body {
+    height: 100vh;
+    overflow: hidden;
+    background-color: #c4c4c4;
+}
+
+/* Layout flexível principal dividindo a tela entre barra lateral e conteúdo */
+.app-layout {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 240px;
+    background-color: #b8b8b8;
+    border-right: 2px solid #a0a0a0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 12px;
+    height: 100vh;
+    flex-shrink: 0;
+}
+
+/* Estilização da área do logotipo ToolSync */
+.brand {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* Estilização de sub-elemento dentro de ".brand h2" */
+.brand h2 {
+    font-size: 28px;
+    font-weight: 900;
+    color: #0b1736;
+}
+
+/* Estilização de sub-elemento dentro de ".brand .orange" */
+.brand .orange {
+    color: #ff6600;
+}
+
+/* Estilização de sub-elemento dentro de ".brand p" */
+.brand p {
+    font-size: 8px;
+    font-weight: bold;
+    color: #0b1736;
+}
+
+/* Estilização do cartão de perfil do usuário na barra lateral */
+.user-profile {
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+/* Círculo de destaque para o ícone de avatar do usuário */
+.avatar-circle {
+    width: 70px;
+    height: 70px;
+    background-color: #051029;
+    border-radius: 50%;
+    margin: 0 auto 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #b8b8b8;
+    font-size: 42px;
+}
+
+/* Estilização de sub-elemento dentro de ".user-profile h3" */
+.user-profile h3 {
+    font-size: 16px;
+    color: #000;
+    font-weight: bold;
+}
+
+/* Estilização de sub-elemento dentro de ".user-profile p" */
+.user-profile p {
+    font-size: 13px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".nav-menu" */
+.nav-menu {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".nav-btn" */
+.nav-btn {
+    width: 100%;
+    padding: 8px;
+    background-color: #dedede;
+    border: 1px solid #b5b5b5;
+    color: #000;
+    font-weight: bold;
+    font-size: 13px;
+    cursor: pointer;
+    border-radius: 2px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+}
+
+/* Define o efeito visual de hover (passar o mouse) para ".nav-btn" */
+.nav-btn:hover {
+    background-color: #ebebeb;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".nav-btn.active" */
+.nav-btn.active {
+    background-color: #ff6600;
+    border-color: #d95700;
+    color: #000;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".nav-bottom" */
+.nav-bottom {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    padding-top: 10px;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    padding: 12px 20px;
+    background-color: #c4c4c4;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".dashboard-header-bar" */
+.dashboard-header-bar {
+    margin-bottom: 10px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".dashboard-title-tag" */
+.dashboard-title-tag {
+    background-color: #dedede;
+    padding: 2px 12px;
+    font-weight: bold;
+    font-size: 13px;
+    border: 1px solid #aaa;
+    display: inline-block;
+}
+
+/* Metrics Top Cards */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 12px;
+    flex-shrink: 0;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".metric-card" */
+.metric-card {
+    background-color: #a8a8a8;
+    padding: 10px 15px;
+    border-radius: 2px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".metric-card h3" */
+.metric-card h3 {
+    font-size: 15px;
+    color: #000;
+    margin-bottom: 6px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".metric-card .amount" */
+.metric-card .amount {
+    font-size: 20px;
+    font-weight: 900;
+    color: #000;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".metric-card .currency" */
+.metric-card .currency {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Content Grid */
+.content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 15px;
+    flex: 1;
+    min-height: 0;
+}
+
+/* Histórico dos Últimos 5 Produtos que Saíram */
+.history-card {
+    background-color: #a8a8a8;
+    padding: 14px;
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".history-card h3" */
+.history-card h3 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #0b1736;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #8c8c8c;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".table-wrapper" */
+.table-wrapper {
+    flex: 1;
+    background-color: #ffffff;
+    border: 1px solid #8c8c8c;
+    border-radius: 2px;
+    overflow-y: auto;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".history-table" */
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".history-table thead" */
+.history-table thead {
+    background-color: #0b1736;
+    color: #ffffff;
+}
+
+.history-table th,
+/* Estilização de sub-elemento dentro de ".history-table td" */
+.history-table td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid #dcdcdc;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".history-table tbody tr:nth-child(even)" */
+.history-table tbody tr:nth-child(even) {
+    background-color: #f4f4f4;
+}
+
+/* Define o efeito visual de hover (passar o mouse) para ".history-table tbody tr" */
+.history-table tbody tr:hover {
+    background-color: #ffe8d6;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".badge-saida" */
+.badge-saida {
+    background-color: #fde8e8;
+    color: #c81e1e;
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 3px;
+    border: 1px solid #f8b4b4;
+    display: inline-block;
+}
+
+/* Stock Column */
+.stock-card {
+    background-color: #a8a8a8;
+    padding: 10px;
+    border-radius: 2px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".stock-card h3" */
+.stock-card h3 {
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 8px;
+    flex-shrink: 0;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".stock-items-wrapper" */
+.stock-items-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 8px;
+    min-height: 0;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".stock-item" */
+.stock-item {
+    background-color: #c4c4c4;
+    padding: 8px;
+    text-align: center;
+    font-size: 12px;
+    border-radius: 2px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".stock-item h4" */
+.stock-item h4 {
+    font-size: 13px;
+    color: #000;
+    margin-bottom: 3px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".stock-item p" */
+.stock-item p {
+    color: #111;
+    margin: 2px 0;
+}
+
+.alert-red { color: #d90000; font-weight: bold; }
+.alert-orange { color: #d97700; font-weight: bold; }
+.alert-green { color: #008000; font-weight: bold; }
+
+.red-text { color: #d90000; font-weight: bold; }
+.green-text { color: #008000; font-weight: bold; }
+
+/* Define as regras de estilo visual e posicionamento para ".stock-footer" */
+.stock-footer {
+    margin-top: auto;
+    text-align: center;
+    padding-top: 8px;
+    flex-shrink: 0;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".see-more" */
+.see-more {
+    color: #000;
+    font-size: 15px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* Define o efeito visual de hover (passar o mouse) para ".see-more" */
+.see-more:hover {
+    text-decoration: underline;
+}

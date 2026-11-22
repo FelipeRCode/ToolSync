@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>4.0.4</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>br.edu.fatecriopreto</groupId>
+	<artifactId>toolsync</artifactId>
+	<version>1.0.0</version>
+	<name>toolsync</name>
+	<description>ToolSync - Sistema de Gestao de Ferramentas (Spring Boot + SQL Server)</description>
+
+	<properties>
+		<java.version>17</java.version>
+		<!-- pasta onde a DLL de autenticacao do Windows (mssql-jdbc_auth) e copiada -->
+		<native.dir>${project.build.directory}/native</native.dir>
+	</properties>
+
+	<dependencies>
+		<!-- API REST + arquivos estaticos do front-end -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webmvc</artifactId>
+		</dependency>
+		<!-- JPA / Hibernate -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<!-- Driver do SQL Server -->
+		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>mssql-jdbc</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<!-- So o BCrypt do Spring Security (hash de senha), sem o filtro de seguranca -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-crypto</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+			<!--
+				Autenticacao integrada do Windows (integratedSecurity=true) precisa da DLL
+				mssql-jdbc_auth na mesma versao do driver. Ela e baixada do Maven Central e
+				copiada para target/native, que entra no java.library.path ao rodar.
+			-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copiar-dll-autenticacao-windows</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.microsoft.sqlserver</groupId>
+									<artifactId>mssql-jdbc_auth</artifactId>
+									<version>${mssql-jdbc.version.base}.x64</version>
+									<type>dll</type>
+									<outputDirectory>${native.dir}</outputDirectory>
+									<destFileName>mssql-jdbc_auth-${mssql-jdbc.version.base}.x64.dll</destFileName>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<jvmArguments>-Djava.library.path=${native.dir} -Dfile.encoding=UTF-8</jvmArguments>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<!-- extrai "13.2.1" de "13.2.1.jre11" (versao do driver definida pelo Spring Boot) -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>versao-base-mssql</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>regex-property</goal>
+						</goals>
+						<configuration>
+							<name>mssql-jdbc.version.base</name>
+							<value>${mssql-jdbc.version}</value>
+							<regex>^(\d+\.\d+\.\d+).*$</regex>
+							<replacement>$1</replacement>
+							<failIfNoMatch>true</failIfNoMatch>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

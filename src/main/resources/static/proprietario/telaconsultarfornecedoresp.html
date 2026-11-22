@@ -1,0 +1,102 @@
+<!-- ==========================================================================
+     ARQUIVO: telaconsultarfornecedoresp.html
+     DESCRIÇÃO: Tela de listagem e pesquisa de fornecedores cadastrados (perfil Proprietário).
+     ========================================================================== -->
+<!-- Declaração do tipo de documento HTML5 -->
+<!DOCTYPE html>
+<!-- Elemento raiz da página HTML definido em Português do Brasil -->
+<html lang="pt-BR">
+<!-- Cabeçalho técnico da página (metadados, título e importação de estilos) -->
+<head>
+    <!-- Define a codificação de caracteres como UTF-8 (suporte a acentos) -->
+    <meta charset="UTF-8">
+    <!-- Configura a responsividade para diferentes tamanhos de tela -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Define o título exibido na aba do navegador -->
+    <title>ToolSync - Consultar Fornecedores (Proprietário)</title>
+    <!-- Importa a folha de estilos CSS específica desta tela -->
+    <link rel="stylesheet" href="telaconsultarfornecedoresp.css">
+    <!-- Importa a biblioteca externa de ícones Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<!-- Início do corpo visível da página -->
+<body>
+    <!-- Container principal que organiza o layout em barra lateral + área de conteúdo -->
+    <div class="app-layout">
+        <!-- Barra lateral fixa de navegação e identificação do usuário -->
+        <aside class="sidebar">
+            <!-- Logotipo e subtítulo do sistema ToolSync no topo da barra lateral -->
+            <div class="brand">
+                <h2>Tool<span class="orange">Sync</span></h2>
+                <p>Sistema de Gestão de Ferramentas</p>
+            </div>
+
+            <!-- Bloco de exibição do avatar, nome e cargo do usuário logado -->
+            <div class="user-profile">
+                <div class="avatar-circle">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <h3 id="userNameDisplay">Ana Beatriz</h3>
+                <p id="userRoleDisplay">Proprietário</p>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="telainicialp.html" class="nav-btn">Dashboard</a>
+                <a href="telacadastrop.html" class="nav-btn active">Cadastrar</a>
+                <a href="telavendap.html" class="nav-btn">Venda</a>
+                <a href="telaestoquep.html" class="nav-btn">Estoque</a>
+                <a href="telarelatoriosp.html" class="nav-btn">Relatórios</a>
+                <div class="nav-bottom">
+                    <!-- Botão/link para encerrar a sessão e retornar à tela de login -->
+                    <a href="../login.html" class="nav-btn logout-btn" id="btnLogout">Sair</a>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main-content animated-fadeIn">
+            <h1 class="section-title">Consultar Fornecedores</h1>
+
+            <div class="filter-bar">
+                <span>Filtros</span>
+                <label>Filtrar por:</label>
+                <!-- Campo de entrada/seleção identificado por "filterBy" -->
+                <select id="filterBy">
+                    <option value="razao">Razão Social</option>
+                    <option value="tipo">Tipo de Produto</option>
+                    <option value="representante">Representante</option>
+                </select>
+                <label>Busca:</label>
+                <!-- Campo de entrada/seleção identificado por "inputBusca" -->
+                <input type="text" id="inputBusca" placeholder="Digite para pesquisar...">
+                <!-- Botão de ação identificado por "btnBuscarForn" -->
+                <button class="btn-buscar" id="btnBuscarForn"><i class="fa-solid fa-filter"></i> Buscar</button>
+            </div>
+
+            <div class="table-wrapper">
+                <!-- Tabela estruturada para listagem e consulta de registros -->
+                <table class="table-container">
+                    <!-- Cabeçalho das colunas da tabela -->
+                    <thead>
+                        <tr>
+                            <th>Razão Social do Fornecedor</th>
+                            <th>Tipo de Produto</th>
+                            <th>Telefone</th>
+                            <th>Representante</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaFornecedoresBody">
+                        <!-- Preenchido via JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <a href="telacadastrop.html" class="btn-voltar-fixed">&larr; Voltar</a>
+        </main>
+    </div>
+    <!-- Biblioteca compartilhada: API do back-end, sessão e lógica das telas -->
+    <script src="../js/toolsync.js"></script>
+    <!-- Importa o arquivo JavaScript responsável pela interatividade desta tela -->
+    <script src="telaconsultarfornecedoresp.js"></script>
+</body>
+</html>

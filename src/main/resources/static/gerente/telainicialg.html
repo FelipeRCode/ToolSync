@@ -1,0 +1,140 @@
+<!-- ==========================================================================
+     ARQUIVO: telainicialg.html
+     DESCRIÇÃO: Painel principal (Dashboard) do Gerente com indicadores gerenciais, gráficos e atalhos administrativos.
+     ========================================================================== -->
+<!-- Declaração do tipo de documento HTML5 -->
+<!DOCTYPE html>
+<!-- Elemento raiz da página HTML definido em Português do Brasil -->
+<html lang="pt-BR">
+<!-- Cabeçalho técnico da página (metadados, título e importação de estilos) -->
+<head>
+    <!-- Define a codificação de caracteres como UTF-8 (suporte a acentos) -->
+    <meta charset="UTF-8">
+    <!-- Configura a responsividade para diferentes tamanhos de tela -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Define o título exibido na aba do navegador -->
+    <title>ToolSync - Dashboard Gerente</title>
+    <!-- Importa a folha de estilos CSS específica desta tela -->
+    <link rel="stylesheet" href="telainicialg.css">
+    <!-- Importa o arquivo JavaScript responsável pela interatividade desta tela -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Importa a biblioteca externa de ícones Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<!-- Início do corpo visível da página -->
+<body>
+    <!-- Container principal que organiza o layout em barra lateral + área de conteúdo -->
+    <div class="app-layout">
+        <!-- Barra lateral fixa de navegação e identificação do usuário -->
+        <aside class="sidebar">
+            <!-- Logotipo e subtítulo do sistema ToolSync no topo da barra lateral -->
+            <div class="brand">
+                <h2>Tool<span class="orange">Sync</span></h2>
+                <p>Sistema de Gestão de Ferramentas</p>
+            </div>
+
+            <!-- Bloco de exibição do avatar, nome e cargo do usuário logado -->
+            <div class="user-profile">
+                <div class="avatar-circle">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <h3 id="userNameDisplay">Carlos Silva</h3>
+                <p id="userRoleDisplay">Gerente</p>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="telainicialg.html" class="nav-btn active">Dashboard</a>
+                <a href="telacadastrog.html" class="nav-btn ">Cadastrar</a>
+                <a href="telaestoqueg.html" class="nav-btn ">Estoque</a>
+                <a href="telarelatoriosg.html" class="nav-btn ">Relatórios</a>
+                <div class="nav-bottom">
+                    <!-- Botão/link para encerrar a sessão e retornar à tela de login -->
+                    <a href="../login.html" class="nav-btn logout-btn" id="btnLogout">Sair</a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content animated-fadeIn">
+            <div class="dashboard-header-bar">
+                <span class="dashboard-title-tag">Dashboard</span>
+            </div>
+
+            <!-- Top Cards -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <h3>Vendas do mês</h3>
+                    <p class="amount"><span class="currency">R$</span> 10.000,00</p>
+                </div>
+                <div class="metric-card">
+                    <h3>Vendas da semana</h3>
+                    <p class="amount"><span class="currency">R$</span> 5.000,00</p>
+                </div>
+                <div class="metric-card">
+                    <h3>Vendas do dia</h3>
+                    <p class="amount"><span class="currency">R$</span> 500,00</p>
+                </div>
+            </div>
+
+            <!-- Middle Section: Charts & Stock Alert -->
+            <div class="content-grid">
+                <div class="charts-column">
+                    <div class="chart-card chart-card-top">
+                        <h3>Vendas do mês</h3>
+                        <div class="canvas-wrapper">
+                            <!-- Área de renderização gráfica (gráficos dinâmicos) -->
+                            <canvas id="chartVendasMes"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card horizontal-flex">
+                        <div class="chart-box">
+                            <!-- Área de renderização gráfica (gráficos dinâmicos) -->
+                            <canvas id="chartVendasSemana"></canvas>
+                        </div>
+                        <div class="chart-label-side">
+                            <h3>Vendas da<br>semana</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stock-column">
+                    <div class="stock-card">
+                        <h3>Produtos com<br>estoque baixo</h3>
+                        
+                        <div class="stock-items-wrapper">
+                            <div class="stock-item">
+                                <h4>Produto 01</h4>
+                                <p>Código produto: 0001</p>
+                                <p>Quantidade atual: <span class="alert-red">03</span></p>
+                                <p>Estoque min: <span class="red-text">05</span></p>
+                            </div>
+
+                            <div class="stock-item">
+                                <h4>Produto 54</h4>
+                                <p>Código produto: 0047</p>
+                                <p>Quantidade atual: <span class="alert-orange">11</span></p>
+                                <p>Estoque min: <span class="green-text">10</span></p>
+                            </div>
+
+                            <div class="stock-item">
+                                <h4>Produto 09</h4>
+                                <p>Código produto: 0013</p>
+                                <p>Quantidade atual: <span class="alert-green">10</span></p>
+                                <p>Estoque min: <span class="green-text">10</span></p>
+                            </div>
+                        </div>
+
+                        <div class="stock-footer">
+                            <a href="telaestoqueg.html" class="see-more">Ver produtos -&gt;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- Biblioteca compartilhada: API do back-end, sessão e lógica das telas -->
+    <script src="../js/toolsync.js"></script>
+    <!-- Importa o arquivo JavaScript responsável pela interatividade desta tela -->
+    <script src="telainicialg.JS"></script>
+</body>
+</html>

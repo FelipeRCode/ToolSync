@@ -1,0 +1,103 @@
+<!-- ==========================================================================
+     ARQUIVO: telaconsultarestoquee.html
+     DESCRIÇÃO: Tela de consulta, busca e visualização detalhada da quantidade e localização dos produtos no armazém.
+     ========================================================================== -->
+<!-- Declaração do tipo de documento HTML5 -->
+<!DOCTYPE html>
+<!-- Elemento raiz da página HTML definido em Português do Brasil -->
+<html lang="pt-BR">
+<!-- Cabeçalho técnico da página (metadados, título e importação de estilos) -->
+<head>
+    <!-- Define a codificação de caracteres como UTF-8 (suporte a acentos) -->
+    <meta charset="UTF-8">
+    <!-- Configura a responsividade para diferentes tamanhos de tela -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Define o título exibido na aba do navegador -->
+    <title>ToolSync - Consultar Estoque</title>
+    <!-- Importa a folha de estilos CSS específica desta tela -->
+    <link rel="stylesheet" href="telaconsultarestoquee.css">
+    <!-- Importa a biblioteca externa de ícones Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<!-- Início do corpo visível da página -->
+<body>
+    <!-- Container principal que organiza o layout em barra lateral + área de conteúdo -->
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <!-- Barra lateral fixa de navegação e identificação do usuário -->
+        <aside class="sidebar">
+            <!-- Logotipo e subtítulo do sistema ToolSync no topo da barra lateral -->
+            <div class="brand">
+                <h2>Tool<span class="orange">Sync</span></h2>
+                <p>Sistema de Gestão de Ferramentas</p>
+            </div>
+
+            <!-- Bloco de exibição do avatar, nome e cargo do usuário logado -->
+            <div class="user-profile">
+                <div class="avatar-circle">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <h3 id="userNameDisplay">Pedro Henrique</h3>
+                <p id="userRoleDisplay">Estoquista 01</p>
+            </div>
+
+            <nav class="nav-menu">
+                <button class="nav-btn" onclick="window.location.href='telainiciale.html'">Dashboard</button>
+                <button class="nav-btn" onclick="window.location.href='telacadastroe.html'">Cadastrar</button>
+                <button class="nav-btn active" onclick="window.location.href='telaconsultarestoquee.html'">Estoque</button>
+
+                <div class="nav-bottom">
+                    <!-- Botão de ação identificado por "btnLogout" -->
+                    <button class="nav-btn logout-btn" id="btnLogout">Sair</button>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <!-- Área principal à direita onde o conteúdo dinâmico da tela é exibido -->
+        <main class="main-content">
+            <div class="page-top-bar">
+                <h1>Consultar estoque</h1>
+            </div>
+
+            <div class="section-bar">Filtros</div>
+            <div class="filters-box">
+                <div class="filter-group">
+                    <label for="filtrarPor">Filtrar por:</label>
+                    <!-- Campo de entrada/seleção identificado por "filtrarPor" -->
+                    <select id="filtrarPor">
+                        <option value="">Selecione...</option>
+                        <option value="codigo">Código (ID)</option>
+                        <option value="corredor">Corredor / Locação</option>
+                        <option value="status">Status</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="periodo">Período:</label>
+                    <!-- Campo de entrada/seleção identificado por "periodo" -->
+                    <input type="text" id="periodo" class="input-periodo" placeholder="dd/mm/aaaa">
+                </div>
+
+                <div class="filter-group">
+                    <label for="codigoProduto">Código do produto:</label>
+                    <!-- Campo de entrada/seleção identificado por "codigoProduto" -->
+                    <input type="text" id="codigoProduto" class="input-codigo" placeholder="Ex: 0001">
+                </div>
+
+                <!-- Botão de ação identificado por "btnBuscar" -->
+                <button type="button" class="btn-buscar" id="btnBuscar">
+                    Buscar <i class="fa-solid fa-filter"></i>
+                </button>
+            </div>
+
+            <!-- Área inicialmente vazia: preenchida somente após buscar o Código do produto -->
+            <div id="resultadoEstoqueContainer" class="resultado-container"></div>
+        </main>
+    </div>
+    <!-- Biblioteca compartilhada: API do back-end, sessão e lógica das telas -->
+    <script src="../js/toolsync.js"></script>
+    <!-- Importa o arquivo JavaScript responsável pela interatividade desta tela -->
+    <script src="telaconsultarestoquee.JS"></script>
+</body>
+</html>

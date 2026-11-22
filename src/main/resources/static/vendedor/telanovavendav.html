@@ -1,0 +1,218 @@
+<!-- ==========================================================================
+     ARQUIVO: telanovavendav.html
+     DESCRIÇÃO: Tela de PDV (Ponto de Venda) para registro de vendas, adição de itens ao carrinho e baixa de estoque (perfil Vendedor).
+     ========================================================================== -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToolSync - Nova Venda (Vendedor)</title>
+    <link rel="stylesheet" href="telanovavendav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <div class="brand">
+                <h2>Tool<span class="orange">Sync</span></h2>
+                <p>Sistema de Gestão de Ferramentas</p>
+            </div>
+
+            <div class="user-profile">
+                <div class="avatar-circle">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <h3 id="userNameDisplay">Pedro Henrique</h3>
+                <p id="userRoleDisplay">Vendedor 01</p>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="telainicialv.html" class="nav-btn">Dashboard</a>
+                <a href="telacadastrov.html" class="nav-btn">Cadastrar</a>
+                <a href="telavendav.html" class="nav-btn active">Venda</a>
+                <div class="nav-bottom">
+                    <a href="../login.html" class="nav-btn logout-btn" id="btnLogout">Sair</a>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main-content animated-fadeIn">
+            <h1 class="section-title">Nova venda</h1>
+
+            <div class="form-box">
+                <div class="form-row-group">
+                    <div style="flex: 1;">
+                        <div class="field-label">Código usuário</div>
+                        <input type="text" class="input-styled" id="codUsuarioInput" value="" readonly style="background:#e0e0e0;">
+                    </div>
+                    <div style="flex: 1.5;">
+                        <div class="field-label">Nome</div>
+                        <input type="text" class="input-styled" id="vendedorNomeInput" value="Pedro Henrique" readonly style="background:#e0e0e0;">
+                    </div>
+                    <div style="flex: 1;">
+                        <div class="field-label">Nrm pedido</div>
+                        <input type="text" class="input-styled" id="numPedidoInput" value="1049" readonly style="background:#e0e0e0; text-align:center;">
+                    </div>
+                    <div style="flex: 1;">
+                        <div class="field-label">Data</div>
+                        <input type="text" class="input-styled" id="dataVendaInput" value="16/11/2026" readonly style="background:#e0e0e0; text-align:center;">
+                    </div>
+                    <div style="flex: 1;">
+                        <div class="field-label">Cupom Fiscal</div>
+                        <input type="text" class="input-styled" id="cupomInput" placeholder="Nº Cupom">
+                    </div>
+                    <div style="flex: 1;">
+                        <div class="field-label">Nota Fiscal</div>
+                        <input type="text" class="input-styled" id="nfInput" placeholder="Nº NF">
+                    </div>
+                </div>
+
+                <div class="form-row-group" style="background:#808080; padding:8px; border-radius:2px;">
+                    <div style="flex: 2.5;">
+                        <span style="color:#fff; font-size:12px; font-weight:bold;">Código do produto/descrição</span>
+                        <input type="text" class="input-styled" id="prodSearch" placeholder="Digite o código ou nome (ex: 0001)...">
+                    </div>
+                    <div style="flex: 0.6;">
+                        <span style="color:#fff; font-size:12px; font-weight:bold;">Qtd</span>
+                        <input type="number" class="input-styled" id="prodQtd" value="1" min="1">
+                    </div>
+                    <div style="flex: 1;">
+                        <span style="color:#fff; font-size:12px; font-weight:bold;">Preço unitário</span>
+                        <input type="text" class="input-styled" id="prodPreco" value="R$ 150,00" readonly style="background:#e0e0e0;">
+                    </div>
+                    <div style="flex: 1;">
+                        <span style="color:#fff; font-size:12px; font-weight:bold;">Preço total</span>
+                        <input type="text" class="input-styled" id="prodTotal" value="R$ 150,00" readonly style="background:#e0e0e0;">
+                    </div>
+                    <div style="flex: 0.6; display:flex; align-items:flex-end;">
+                        <button type="button" class="btn-add-prod" id="btnAddProd">+ Add</button>
+                    </div>
+                </div>
+
+                <table class="table-container" id="tableVenda">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Código</th>
+                            <th>Descrição</th>
+                            <th>Qtd.</th>
+                            <th style="background:#ff6600; color:#fff;">Qtd disponível</th>
+                            <th>Preço Unitário (R$)</th>
+                            <th>Preço total (R$)</th>
+                            <th>Observação</th>
+                            <th>Preço Final</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyItensVenda">
+                    </tbody>
+                </table>
+
+                <div class="form-row-group" style="margin-top:10px;">
+                    <div style="flex: 1;">
+                        <div class="field-label">Código Cliente</div>
+                        <input type="text" class="input-styled" id="clienteCodigoInput" placeholder="Código ou nome">
+                    </div>
+                    <div style="flex: 2;">
+                        <div class="field-label">Nome</div>
+                        <input type="text" class="input-styled" id="clienteVendaNome" value="" placeholder="Digite o nome do cliente">
+                    </div>
+                    <div style="flex: 1;">
+                        <div class="field-label">Qtde. Itens</div>
+                        <input type="text" class="input-styled" id="qtdeItensInput" value="3" readonly style="background:#e0e0e0; text-align:center;">
+                    </div>
+                    <div style="flex: 1.5;">
+                        <div class="field-label">Valor total</div>
+                        <input type="text" class="input-styled" id="valorTotalVendaInput" value="R$ 560,00" readonly style="background:#e0e0e0; font-weight:bold; font-size:16px;">
+                    </div>
+                </div>
+
+                <div style="display:flex; justify-content:flex-end; gap:20px; margin-top:10px;">
+                    <button type="button" class="btn-caixa" id="btnAbrirCaixa"><i class="fa-solid fa-dollar-sign"></i> CAIXA</button>
+                    <button type="button" class="btn-salvar-venda" id="btnSalvarVenda"><i class="fa-solid fa-circle-check"></i> SALVAR</button>
+                </div>
+            </div>
+
+            <a href="telavendav.html" class="btn-voltar-fixed">&larr; Voltar</a>
+        </main>
+    </div>
+
+    <!-- Modal Forma de Pagamento (CAIXA) -->
+    <div class="modal-overlay" id="modalCaixa">
+        <div class="modal-card animated-fadeIn">
+            <h2 class="modal-title">Forma de pagamento</h2>
+
+            <div class="modal-header-orange">
+                <div><strong>Número da venda:</strong><br><span style="color:#fff;" id="modalNumeroVenda">Nova</span></div>
+                <div><strong>Valor Total:</strong><br><span style="color:#fff;" id="modalValorTotal">R$ 560,00</span></div>
+                <div><strong>Nome Cliente:</strong><br><span style="color:#fff;" id="modalClienteNome">Poliane Soares da Cruz</span></div>
+                <div><strong>Código Usuário:</strong><br><span style="color:#fff;" id="modalCodUsuario"></span></div>
+            </div>
+
+            <div class="payment-section">
+                <div class="pay-title">Dinheiro</div>
+                <div class="form-row-group">
+                    <div style="flex:1;">
+                        <span style="font-size:12px; color:#fff;">Valor recebido (R$)</span>
+                        <input type="text" class="input-styled" id="payDinheiro" placeholder="0,00">
+                    </div>
+                    <div style="flex:1;">
+                        <span style="font-size:12px; color:#fff;">Troco ($)</span>
+                        <input type="text" class="input-styled" id="trocoDinheiro" readonly style="background:#e0e0e0;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="payment-section">
+                <div class="pay-title">PIX</div>
+                <div class="form-row-group">
+                    <div style="flex:1;">
+                        <span style="font-size:12px; color:#fff;">Valor pago (R$)</span>
+                        <input type="text" class="input-styled" id="payPix" placeholder="0,00">
+                    </div>
+                    <div style="flex:1;">
+                        <span style="font-size:12px; color:#fff;">Comprovante / Chave</span>
+                        <input type="text" class="input-styled" placeholder="OK">
+                    </div>
+                </div>
+            </div>
+
+            <div class="payment-section">
+                <div class="pay-title">Cartão</div>
+                <div class="form-row-group">
+                    <div style="flex:1;">
+                        <span style="font-size:12px; color:#fff;">Valor pago (R$)</span>
+                        <input type="text" class="input-styled" id="payCartao" placeholder="0,00">
+                    </div>
+                    <div style="flex:1.2; display:flex; align-items:center; gap:10px; color:#fff; font-size:13px; font-weight:bold;">
+                        <span>Selecione:</span>
+                        <label><input type="radio" name="tipoCartao" value="debito" checked> Débito</label>
+                        <label><input type="radio" name="tipoCartao" value="credito"> Crédito</label>
+                    </div>
+                </div>
+                <div class="form-row-group" style="margin-top:6px;">
+                    <div style="flex:1;">
+                        <span style="font-size:12px; color:#fff;">Parcelas</span>
+                        <input type="number" class="input-styled" id="parcelasCartao" value="1" min="1" max="12">
+                    </div>
+                    <div style="flex:1;">
+                        <span style="font-size:12px; color:#fff;">Valor por parcela (R$)</span>
+                        <input type="text" class="input-styled" id="valorParcela" readonly style="background:#e0e0e0;">
+                    </div>
+                </div>
+            </div>
+
+            <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:15px;">
+                <button type="button" class="btn-modal-close" id="btnFecharCaixa">Cancelar</button>
+                <button type="button" class="btn-top-save" style="position:relative; top:0; right:0;" id="btnConfirmarPagamento">
+                    <i class="fa-solid fa-floppy-disk"></i> Salvar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/toolsync.js"></script>
+
+    <script src="telanovavendav.js"></script>
+</body>
+</html>

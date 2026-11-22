@@ -1,0 +1,83 @@
+<!-- ==========================================================================
+     ARQUIVO: telaconsultarvendasv.html
+     DESCRIÇÃO: Tela de consulta e histórico detalhado de vendas realizadas (perfil Vendedor).
+     ========================================================================== -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToolSync - Consultar Vendas (Vendedor)</title>
+    <link rel="stylesheet" href="telaconsultarvendasv.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <div class="brand">
+                <h2>Tool<span class="orange">Sync</span></h2>
+                <p>Sistema de Gestão de Ferramentas</p>
+            </div>
+
+            <div class="user-profile">
+                <div class="avatar-circle">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <h3 id="userNameDisplay">Pedro Henrique</h3>
+                <p id="userRoleDisplay">Vendedor 01</p>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="telainicialv.html" class="nav-btn">Dashboard</a>
+                <a href="telacadastrov.html" class="nav-btn">Cadastrar</a>
+                <a href="telavendav.html" class="nav-btn active">Venda</a>
+                <div class="nav-bottom">
+                    <a href="../login.html" class="nav-btn logout-btn" id="btnLogout">Sair</a>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main-content animated-fadeIn">
+            <h1 class="section-title">Consultar vendas</h1>
+
+            <div class="filter-bar">
+                <span>Filtros</span>
+                <label>Filtrar por:</label>
+                <select id="filterBy">
+                    <option value="codigo">Código da venda</option>
+                    <option value="cliente">Nome do cliente</option>
+                    <option value="vendedor">Vendedor / Usuário</option>
+                </select>
+                <label>Busca:</label>
+                <input type="text" id="inputBusca" placeholder="Ex: 0001 ou nome...">
+                <button class="btn-buscar" id="btnBuscarVenda"><i class="fa-solid fa-filter"></i> Buscar</button>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="table-container">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Hora</th>
+                            <th>Data</th>
+                            <th>Nome do cliente</th>
+                            <th>Responsável</th>
+                            <th>Quantidade de produtos</th>
+                            <th>Valor total</th>
+                            <th>Forma de pagamento</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaVendasBody">
+                        <!-- Preenchido via JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <a href="telavendav.html" class="btn-voltar-fixed">&larr; Voltar</a>
+        </main>
+    </div>
+    <script src="../js/toolsync.js"></script>
+    <script src="telaconsultarvendasv.js"></script>
+</body>
+</html>

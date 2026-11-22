@@ -1,127 +1,147 @@
-# Tool Sync — Sistema de Vendas
+# ToolSync — Sistema de Gestão de Ferramentas
 
-## Sobre o Projeto
+Aplicação web para uma loja de ferramentas, com quatro perfis de acesso: **Proprietário, Gerente, Vendedor e Estoquista**. Ela cobre clientes, funcionários, fornecedores, produtos, estoque, vendas com várias formas de pagamento, relatórios e backup do banco.
 
-O **Tool Sync** é um sistema back-end desenvolvido em Java como projeto acadêmico da disciplina de Linguagem de Programação. O objetivo do sistema é simular o fluxo completo de cadastro, venda e acompanhamento de pedidos de uma loja de ferramentas, aplicando na prática os principais conceitos da programação orientada a objetos.
+Projeto de Extensão Comunitária (Curricularização) — Fatec São José do Rio Preto, 4º semestre de 2026.
 
-A ideia central do projeto é oferecer uma estrutura organizada onde clientes possam ter seus pedidos registrados, vendedores possam gerenciar as vendas e emitir relatórios, e o sistema mantenha o controle de estoque, pagamentos e histórico de compras de forma integrada.
-
----
-
-## Funcionalidades
-
-O sistema oferece seis funcionalidades principais, acessadas por meio de menus interativos no terminal:
-
-- **Cadastrar Cliente** — Permite incluir novos clientes e alterar ou excluir registros existentes.
-- **Efetuar Pedido** — Registra pedidos com múltiplos itens, atualiza o estoque automaticamente e registra o pagamento ao finalizar.
-- **Emitir Relatório de Vendas** — Gera relatório por vendedor ou relatório geral com todos os pedidos e totais.
-- **Cadastrar Produto** — Permite incluir, alterar e excluir produtos (ferramentas), além de gerenciar as categorias de produtos.
-- **Cadastrar Funcionário** — Permite incluir, alterar e excluir vendedores do sistema.
-- **Consultar Cliente** — Exibe os dados completos de um cliente junto ao seu histórico de compras e pagamentos.
-
-Todas as entradas do usuário passam por validação: campos obrigatórios, formatos de CPF/CNPJ, e-mail e telefone, intervalos numéricos e seleção de IDs existentes são verificados antes de qualquer operação.
+| Camada | Tecnologia |
+| --- | --- |
+| Front-end | HTML, CSS e JavaScript, servidos pelo próprio Spring Boot |
+| Back-end | Java 17, Spring Boot 4 (Web MVC + Spring Data JPA / Hibernate 7), Lombok |
+| Banco de dados | SQL Server, com procedures, triggers, views e functions |
+| Senhas | Hash BCrypt (`spring-security-crypto`) |
 
 ---
 
-## Modelagem Orientada a Objetos
-
-O projeto foi desenvolvido com foco na aplicação correta dos pilares da orientação a objetos.
-
-O **encapsulamento** foi aplicado em todas as classes, com os atributos declarados como privados e acessados apenas por meio de getters e setters.
-
-A **herança** foi utilizada nas classes `ClienteEntity` e `VendedorEntity`, que estendem a classe base `PessoaEntity`, reaproveitando os atributos comuns como nome, CPF, telefone, e-mail e endereço.
-
-A **composição** está presente na relação entre as entidades: um `PedidoEntity` é composto por uma lista de `ItemPedidoEntity`, cada item referencia um `ProdutoEntity`, e o pedido se associa a um `PagamentoEntity` ao ser finalizado.
-
----
-
-## Estrutura de Classes
-
-| Classe | Tipo | Descrição |
-|---|---|---|
-| `PessoaEntity` | Superclasse | Atributos comuns de toda pessoa (nome, CPF, telefone, e-mail, endereço) |
-| `ClienteEntity` | Subclasse de Pessoa | Representa o cliente, armazena histórico de pedidos |
-| `VendedorEntity` | Subclasse de Pessoa | Representa o funcionário/vendedor, armazena pedidos realizados |
-| `ProdutoEntity` | Entidade | Produto (ferramenta) com nome, preço, estoque e categoria |
-| `CategoriaEntity` | Entidade | Categoria de produto com nome e descrição |
-| `PedidoEntity` | Entidade | Pedido com lista de itens, status e pagamento associado |
-| `ItemPedidoEntity` | Entidade | Item individual de um pedido com quantidade e subtotal |
-| `PagamentoEntity` | Entidade | Registro de pagamento vinculado a um pedido |
-
----
-
-## Estrutura do Projeto
+## Estrutura do repositório
 
 ```
 ToolSync/
-├── src/
-│   ├── App.java
-│   └── entidades/
-│       ├── PessoaEntity.java
-│       ├── ClienteEntity.java
-│       ├── VendedorEntity.java
-│       ├── CategoriaEntity.java
-│       ├── ProdutoEntity.java
-│       ├── ItemPedidoEntity.java
-│       ├── PedidoEntity.java
-│       └── PagamentoEntity.java
-└── bin/
-    ├── App.class
-    └── entidades/
-        ├── PessoaEntity.class
-        ├── ClienteEntity.class
-        ├── VendedorEntity.class
-        ├── CategoriaEntity.class
-        ├── ProdutoEntity.class
-        ├── ItemPedidoEntity.class
-        ├── PedidoEntity.class
-        └── PagamentoEntity.class
+├── banco/
+│   ├── toolsync_banco.sql      script completo: tabelas, procedures, triggers, views, functions e carga de dados
+│   ├── DER_ToolSync.svg        diagrama entidade-relacionamento (vetorial)
+│   └── DER_ToolSync.png
+├── src/main/java/br/edu/fatecriopreto/toolsync/
+│   ├── entities/               classes @Entity (herança, relacionamentos N x N com @EmbeddedId)
+│   ├── repositories/           interfaces Spring Data JPA
+│   ├── services/               regras de negócio; chamadas às procedures, views e functions
+│   ├── controllers/            API REST (/api/...)
+│   ├── dto/                    objetos de entrada e saída da API
+│   ├── seguranca/              login por sessão e controle de acesso por perfil (@Perfis)
+│   └── config/                 tratamento de erros, nomes de tabela/coluna, rotas
+├── src/main/resources/
+│   ├── application.properties  conexão com o SQL Server
+│   └── static/                 front-end (login.html, proprietario/, gerente/, vendedor/, estoquista/, js/toolsync.js)
+├── versao-console/             primeira versão do projeto (Java puro, menus no terminal)
+├── pom.xml
+└── mvnw / mvnw.cmd             Maven Wrapper (não precisa instalar o Maven)
 ```
+
+## Como rodar
+
+**Pré-requisitos:** JDK 17 ou superior e SQL Server 2017 ou superior. Funciona no SQL Server Express.
+
+**1. Criar o banco.** Abra `banco/toolsync_banco.sql` no SSMS e execute o script inteiro. Ele cria o banco `ToolSync`, todos os objetos e a carga de dados de teste.
+
+**2. Ajustar a conexão** em `src/main/resources/application.properties`:
+
+```properties
+# Autenticação do Windows (padrão). Troque a porta pela porta TCP da sua instância.
+spring.datasource.url=jdbc:sqlserver://localhost:50562;databaseName=ToolSync;encrypt=true;trustServerCertificate=true;integratedSecurity=true
+
+# Ou usuário do SQL Server (laboratório):
+#spring.datasource.url=jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=ToolSync;encrypt=true;trustServerCertificate=true
+#spring.datasource.username=aluno
+#spring.datasource.password=
+```
+
+A instância precisa estar com o protocolo **TCP/IP habilitado**, porque o driver JDBC só conecta por TCP. Para descobrir a porta, rode no SSMS:
+
+```sql
+select distinct local_tcp_port from sys.dm_exec_connections where local_tcp_port is not null
+```
+
+**3. Subir a aplicação:**
+
+```powershell
+.\mvnw.cmd spring-boot:run
+```
+
+**4. Abrir** <http://localhost:8080>.
+
+Na autenticação do Windows (`integratedSecurity=true`), o driver precisa da DLL `mssql-jdbc_auth`. O próprio Maven a baixa para `target/native`, e o `spring-boot:run` já a coloca no caminho. Para rodar o `.jar` gerado por `mvnw package`, use:
+
+```powershell
+java "-Djava.library.path=target/native" -jar target/toolsync-1.0.0.jar
+```
+
+### Usuários de teste
+
+A senha de todos é `toolsync123`.
+
+| Login | Perfil | O que acessa |
+| --- | --- | --- |
+| `ana` | Proprietário | tudo, inclusive Configurações (backup e restore) |
+| `carlos` | Gerente | funcionários, fornecedores, estoque e relatórios |
+| `pedro`, `mariana`, `rafael` | Vendedor | clientes e vendas (só as próprias vendas) |
+| `joao`, `beatriz` | Estoquista | cadastro de produtos, consulta de estoque e entrada de mercadoria |
+| `lucas` | Vendedor inativo | não entra; demonstra o trigger que bloqueia o login de funcionário desligado |
 
 ---
 
-## Como Rodar o Projeto
+## Banco de dados
 
-Para executar o projeto é necessário ter o **Java JDK 17** ou superior instalado na máquina, além do **VS Code** com a extensão **Extension Pack for Java**.
+O banco tem 16 tabelas e 3 relacionamentos N x N:
+- Vendas x Produtos (`ItensVenda`)
+- Produtos x Fornecedores (`ProdutoFornecedor`)
+- Produtos x Localizações (`ProdutoLocalizacao`)
 
-### Executando pelo VS Code
+Também há herança: `Pessoas` é a tabela-mãe de `Clientes`, `Funcionarios` e `Fornecedores`. O diagrama completo está em [`banco/DER_ToolSync.png`](banco/DER_ToolSync.png).
 
-1. Abra a pasta `ToolSync` no VS Code
-2. Navegue até `src/App.java`
-3. Clique em **Run** ou pressione `F5`
+| Tipo | Objeto | Onde o sistema usa |
+| --- | --- | --- |
+| Procedure | `sp_CadastrarFuncionario` | Cadastrar funcionário (Pessoas + Funcionarios + Usuarios na mesma transação) |
+| Procedure | `sp_EntradaEstoque` | Entrada de mercadoria e estoque inicial do produto |
+| Procedure | `sp_RegistrarVenda` / `sp_RegistrarPagamentos` | Nova venda (itens e pagamentos em JSON) |
+| Procedure | `sp_ConcluirReserva` | Concluir venda reservada |
+| Procedure | `sp_CancelarVenda` | Cancelar venda (devolve ao estoque) |
+| Procedure | `sp_BackupBanco` | Configurações → Fazer backup |
+| Trigger | `tg_ItensVenda_GerarMovimentacao` | Baixa ou reserva o estoque e calcula o total da venda |
+| Trigger | `tg_MovimentacoesEstoque_AtualizarSaldo` | Atualiza o saldo e bloqueia estoque negativo |
+| Trigger | `tg_Produtos_HistoricoPreco` | Grava o histórico de preços |
+| Trigger | `tg_Funcionarios_SincronizarUsuario` | Desativa o login do funcionário desligado |
+| View | `v_VendasDetalhadas` | Consultar vendas |
+| View | `v_RelatorioVendas` | Relatórios |
+| View | `v_EstoqueBaixo` | Dashboards |
+| View | `v_HistoricoMovimentacoes` | Estoque (histórico) e dashboard do estoquista |
+| View | `v_DashboardVendas` | Cards de vendas do dia, da semana e do mês |
+| Function | `fc_TotalVendasPeriodo` (escalar) | Vendas por mês nos dashboards |
+| Function | `fc_UltimaCompraCliente` (escalar) | Coluna "Última compra" de clientes |
+| Function | `fc_HistoricoCliente` (tabela) | Detalhes do cliente |
+| Function | `fc_VendasPorVendedor` (tabela) | Gráfico de vendas da semana |
 
-### Executando pelos arquivos compilados (pasta `bin`)
+O restore do backup é feito pelo Java numa conexão separada ao banco `master`, porque o SQL Server não restaura um banco em uso pela própria conexão.
 
-Caso queira rodar diretamente sem recompilar, acesse a pasta `bin` pelo terminal e execute:
+## API REST (resumo)
 
-```bash
-cd ToolSync/bin
-java -Dfile.encoding=UTF-8 -cp . App
-```
+Todas as rotas exigem login, menos `/api/auth/login`. O perfil de cada rota é conferido pela anotação `@Perfis`.
 
-### Recompilando manualmente
+| Rota | Descrição |
+| --- | --- |
+| `POST /api/auth/login`, `POST /api/auth/logout`, `GET /api/auth/me` | sessão |
+| `/api/clientes`, `/api/funcionarios`, `/api/fornecedores`, `/api/produtos` | CRUD (GET, POST, PUT, DELETE) |
+| `GET /api/categorias`, `GET /api/marcas`, `GET /api/estoque/localizacoes` | listas auxiliares |
+| `POST /api/estoque/entradas`, `GET /api/estoque/movimentacoes`, `GET /api/estoque/baixo` | estoque |
+| `GET/POST /api/vendas`, `POST /api/vendas/{id}/concluir`, `POST /api/vendas/{id}/cancelar` | vendas |
+| `GET /api/dashboard`, `GET /api/relatorios/vendas`, `GET /api/relatorios/vendedores` | indicadores |
+| `POST /api/sistema/backup`, `GET /api/sistema/backups`, `POST /api/sistema/restore` | backup e restore (proprietário) |
 
-```bash
-cd ToolSync/src
-javac -encoding UTF-8 -d ../bin entidades/*.java
-javac -encoding UTF-8 -cp ../bin -d ../bin App.java
-```
+---
 
-Integrantes
+## Integrantes
 
-Felipe Dos Reis
-
-Pedro Henrique da Costa Amaral 
-
-Poliane Soares da Cruz 
-
-Ygor Vinicius da Silva Borges 
-
-Otavio Luiz Russa Pinto 
-
-
-
-
-Disciplina
-Linguagem de Programação — Trabalho Interdisciplinar
-Professora Luciene Cavalcanti
+- Gabriel Parra
+- Felipe dos Reis
+- Pedro Henrique do Amaral
+- Poliane Soares da Cruz
+- Ygor Vinicius da Silva Borges

@@ -1,0 +1,134 @@
+<!-- ==========================================================================
+     ARQUIVO: telaestoqueg.html
+     DESCRIÇÃO: Tela de consulta e acompanhamento de níveis de estoque pelo Gerente.
+     ========================================================================== -->
+<!-- Declaração do tipo de documento HTML5 -->
+<!DOCTYPE html>
+<!-- Elemento raiz da página HTML definido em Português do Brasil -->
+<html lang="pt-BR">
+<!-- Cabeçalho técnico da página (metadados, título e importação de estilos) -->
+<head>
+    <!-- Define a codificação de caracteres como UTF-8 (suporte a acentos) -->
+    <meta charset="UTF-8">
+    <!-- Configura a responsividade para diferentes tamanhos de tela -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Define o título exibido na aba do navegador -->
+    <title>ToolSync - Ver Estoque (Gerente)</title>
+    <!-- Importa a folha de estilos CSS específica desta tela -->
+    <link rel="stylesheet" href="telaestoqueg.css">
+    <!-- Importa a biblioteca externa de ícones Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<!-- Início do corpo visível da página -->
+<body>
+    <!-- Container principal que organiza o layout em barra lateral + área de conteúdo -->
+    <div class="app-layout">
+        <!-- Barra lateral fixa de navegação e identificação do usuário -->
+        <aside class="sidebar">
+            <!-- Logotipo e subtítulo do sistema ToolSync no topo da barra lateral -->
+            <div class="brand">
+                <h2>Tool<span class="orange">Sync</span></h2>
+                <p>Sistema de Gestão de Ferramentas</p>
+            </div>
+
+            <!-- Bloco de exibição do avatar, nome e cargo do usuário logado -->
+            <div class="user-profile">
+                <div class="avatar-circle">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <h3 id="userNameDisplay">Carlos Silva</h3>
+                <p id="userRoleDisplay">Gerente</p>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="telainicialg.html" class="nav-btn ">Dashboard</a>
+                <a href="telacadastrog.html" class="nav-btn ">Cadastrar</a>
+                <a href="telaestoqueg.html" class="nav-btn active">Estoque</a>
+                <a href="telarelatoriosg.html" class="nav-btn ">Relatórios</a>
+                <div class="nav-bottom">
+                    <!-- Botão/link para encerrar a sessão e retornar à tela de login -->
+                    <a href="../login.html" class="nav-btn logout-btn" id="btnLogout">Sair</a>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main-content animated-fadeIn">
+            <h1 class="section-title">Ver Estoque</h1>
+
+            <div class="filter-bar">
+                <span>Filtros</span>
+                <label>Filtrar por:</label>
+                <!-- Campo de entrada/seleção identificado por "filterCategoria" -->
+                <select id="filterCategoria">
+                    <option value="">Todas as Categorias</option>
+                    <option value="Elétricas">Elétricas</option>
+                    <option value="Manuais">Manuais</option>
+                    <option value="Corte e Desbaste">Corte e Desbaste</option>
+                </select>
+                <label>Nome do produto:</label>
+                <!-- Campo de entrada/seleção identificado por "buscaNomeProd" -->
+                <input type="text" id="buscaNomeProd" placeholder="Nome da peça...">
+                <label>Código do produto:</label>
+                <!-- Campo de entrada/seleção identificado por "buscaCodigoProd" -->
+                <input type="text" id="buscaCodigoProd" placeholder="Ex: 0001" style="width: 100px;">
+                <!-- Botão de ação identificado por "btnBuscarEstoque" -->
+                <button class="btn-buscar" id="btnBuscarEstoque"><i class="fa-solid fa-filter"></i> Buscar</button>
+            </div>
+
+            <div class="estoque-split">
+                <!-- Tabela de Produtos (sem coluna de Ações, conforme especificação) -->
+                <div class="table-wrapper" style="margin-bottom: 10px; flex: 1;">
+                    <!-- Tabela estruturada para listagem e consulta de registros -->
+                    <table class="table-container">
+                        <!-- Cabeçalho das colunas da tabela -->
+                        <thead>
+                            <tr>
+                                <th style="width: 70px;">Imagem</th>
+                                <th>Código do produto</th>
+                                <th>Nome do produto</th>
+                                <th>Categoria</th>
+                                <th>Preço</th>
+                                <th>Quantidade em estoque</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaEstoqueBody">
+                            <!-- Preenchido via JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Painel de Histórico de Movimentações da Peça Selecionada -->
+                <div class="movimentacoes-box">
+                    <div class="mov-header">
+                        <span id="movTituloPeca"><i class="fa-solid fa-clock-rotate-left"></i> Histórico de Movimentações — Selecione ou pesquise um produto acima</span>
+                    </div>
+                    <div class="mov-table-scroll">
+                        <!-- Tabela estruturada para listagem e consulta de registros -->
+                        <table class="table-container" style="margin-top: 0;">
+                            <!-- Cabeçalho das colunas da tabela -->
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Tipo de Movimentação</th>
+                                    <th>Quantidade</th>
+                                    <th>Responsável</th>
+                                    <th>Observação / Referência</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaMovimentacoesBody">
+                                <tr><td colspan="5">Clique em um produto ou pesquise pelo código para visualizar entradas, reservas e saídas.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <a href="telainicialg.html" class="btn-voltar-fixed">&larr; Voltar</a>
+        </main>
+    </div>
+    <!-- Biblioteca compartilhada: API do back-end, sessão e lógica das telas -->
+    <script src="../js/toolsync.js"></script>
+    <!-- Importa o arquivo JavaScript responsável pela interatividade desta tela -->
+    <script src="telaestoqueg.js"></script>
+</body>
+</html>

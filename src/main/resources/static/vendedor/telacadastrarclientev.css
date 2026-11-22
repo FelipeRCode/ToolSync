@@ -1,0 +1,400 @@
+/* ==========================================================================
+   FOLHA DE ESTILOS: telacadastrarclientev.css
+   DESCRIÇÃO: Formulário e lógica para cadastro de novos clientes pelo Vendedor.
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Configura a altura total da janela (100vh) e a cor de fundo base da aplicação */
+html, body {
+    height: 100vh;
+    overflow: hidden;
+    background-color: #c4c4c4;
+}
+
+/* Layout flexível principal dividindo a tela entre barra lateral e conteúdo */
+.app-layout {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 240px;
+    background-color: #b8b8b8;
+    border-right: 2px solid #a0a0a0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 12px;
+    height: 100vh;
+    flex-shrink: 0;
+}
+
+/* Estilização da área do logotipo ToolSync */
+.brand {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* Estilização de sub-elemento dentro de ".brand h2" */
+.brand h2 {
+    font-size: 28px;
+    font-weight: 900;
+    color: #0b1736;
+}
+
+/* Estilização de sub-elemento dentro de ".brand .orange" */
+.brand .orange {
+    color: #ff6600;
+}
+
+/* Estilização de sub-elemento dentro de ".brand p" */
+.brand p {
+    font-size: 8px;
+    font-weight: bold;
+    color: #0b1736;
+}
+
+/* Estilização do cartão de perfil do usuário na barra lateral */
+.user-profile {
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+/* Círculo de destaque para o ícone de avatar do usuário */
+.avatar-circle {
+    width: 70px;
+    height: 70px;
+    background-color: #051029;
+    border-radius: 50%;
+    margin: 0 auto 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #b8b8b8;
+    font-size: 42px;
+}
+
+/* Estilização de sub-elemento dentro de ".user-profile h3" */
+.user-profile h3 {
+    font-size: 16px;
+    color: #000;
+    font-weight: bold;
+}
+
+/* Estilização de sub-elemento dentro de ".user-profile p" */
+.user-profile p {
+    font-size: 13px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".nav-menu" */
+.nav-menu {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".nav-btn" */
+.nav-btn {
+    width: 100%;
+    padding: 8px;
+    background-color: #dedede;
+    border: 1px solid #b5b5b5;
+    color: #000;
+    font-weight: bold;
+    font-size: 13px;
+    cursor: pointer;
+    border-radius: 2px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+    text-decoration: none;
+    text-align: center;
+    display: block;
+    transition: all 0.2s ease;
+}
+
+/* Define o efeito visual de hover (passar o mouse) para ".nav-btn" */
+.nav-btn:hover {
+    background-color: #ebebeb;
+    transform: translateX(2px);
+}
+
+/* Define as regras de estilo visual e posicionamento para ".nav-btn.active" */
+.nav-btn.active {
+    background-color: #ff6600;
+    color: #ffffff;
+    border-color: #d95500;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".nav-bottom" */
+.nav-bottom {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    padding-top: 10px;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    padding: 12px 20px;
+    background-color: #c4c4c4;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".page-tag" */
+.page-tag {
+    background-color: #dedede;
+    padding: 2px 14px;
+    font-weight: bold;
+    font-size: 13px;
+    border: 1px solid #aaa;
+    display: inline-block;
+    margin-bottom: 10px;
+    align-self: flex-start;
+}
+
+/* Smooth Fade In Animation */
+.animated-fadeIn {
+    animation: fadeIn 0.35s ease-in-out;
+}
+
+/* Define as regras de estilo visual e posicionamento para "@keyframes fadeIn" */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hub Action Cards Grid */
+.hub-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".hub-card" */
+.hub-card {
+    background-color: #0b1736;
+    color: white;
+    width: 180px;
+    height: 160px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.2s;
+    padding: 15px;
+    text-align: center;
+}
+
+/* Define o efeito visual de hover (passar o mouse) para ".hub-card" */
+.hub-card:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.35);
+    background-color: #0f2048;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".hub-card i" */
+.hub-card i {
+    font-size: 55px;
+    margin-bottom: 15px;
+    color: #ffffff;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".hub-card span" */
+.hub-card span {
+    font-weight: bold;
+    font-size: 16px;
+    color: #ffffff;
+    line-height: 1.2;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".btn-voltar-fixed" */
+.btn-voltar-fixed {
+    position: absolute;
+    bottom: 25px;
+    right: 25px;
+    background-color: #ff6600;
+    color: #0b1736;
+    font-weight: 900;
+    font-size: 15px;
+    padding: 8px 30px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: background-color 0.2s, transform 0.15s;
+}
+
+/* Define o efeito visual de hover (passar o mouse) para ".btn-voltar-fixed" */
+.btn-voltar-fixed:hover {
+    background-color: #e65c00;
+    transform: scale(1.04);
+}
+
+/* Form Container Styling */
+.section-title {
+    font-size: 36px;
+    font-weight: 900;
+    color: #0b1736;
+    margin-bottom: 15px;
+    letter-spacing: -0.5px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".form-box" */
+.form-box {
+    background-color: #a8a8a8;
+    padding: 15px 20px;
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".form-row-group" */
+.form-row-group {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".field-label" */
+.field-label {
+    background-color: #707070;
+    color: white;
+    font-weight: bold;
+    font-size: 13px;
+    padding: 4px 8px;
+    margin-bottom: 4px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".input-styled" */
+.input-styled {
+    width: 100%;
+    height: 32px;
+    padding: 0 8px;
+    border: 1px solid #999;
+    outline: none;
+    font-size: 13px;
+    background: #fff;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".btn-top-save" */
+.btn-top-save {
+    position: absolute;
+    top: 12px;
+    right: 20px;
+    background-color: #707070;
+    color: white;
+    border: none;
+    padding: 6px 20px;
+    font-weight: bold;
+    font-size: 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.2s;
+}
+
+/* Define o efeito visual de hover (passar o mouse) para ".btn-top-save" */
+.btn-top-save:hover {
+    background-color: #555555;
+}
+
+/* Data Table Styling */
+.table-container {
+    width: 100%;
+    background: #fff;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+/* Estilização de sub-elemento dentro de ".table-container th" */
+.table-container th {
+    background-color: #d0d0d0;
+    color: #000;
+    font-weight: bold;
+    padding: 8px 6px;
+    border: 1px solid #b0b0b0;
+    text-align: center;
+}
+
+/* Estilização de sub-elemento dentro de ".table-container td" */
+.table-container td {
+    padding: 6px;
+    border: 1px solid #d0d0d0;
+    text-align: center;
+    color: #222;
+}
+
+/* Estilização de sub-elemento dentro de ".table-container tr:nth-child(even)" */
+.table-container tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".status-badge" */
+.status-badge {
+    background-color: #28a745;
+    color: white;
+    padding: 2px 10px;
+    border-radius: 3px;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+/* Filter Bar */
+.filter-bar {
+    background-color: #707070;
+    color: white;
+    padding: 6px 12px;
+    font-weight: bold;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".filter-bar input, .filter-bar select" */
+.filter-bar input, .filter-bar select {
+    padding: 3px 6px;
+    font-size: 12px;
+    border: none;
+    outline: none;
+}
+
+/* Define as regras de estilo visual e posicionamento para ".btn-buscar" */
+.btn-buscar {
+    background-color: #dedede;
+    color: #000;
+    border: 1px solid #999;
+    padding: 3px 12px;
+    font-weight: bold;
+    cursor: pointer;
+}

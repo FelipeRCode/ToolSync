@@ -1,0 +1,88 @@
+<!-- ==========================================================================
+     ARQUIVO: telavendap.html
+     DESCRIÇÃO: Menu principal da área de vendas do Proprietário (Nova Venda e Consultar Vendas).
+     ========================================================================== -->
+<!-- Declaração do tipo de documento HTML5 -->
+<!DOCTYPE html>
+<!-- Elemento raiz da página HTML definido em Português do Brasil -->
+<html lang="pt-BR">
+<!-- Cabeçalho técnico da página (metadados, título e importação de estilos) -->
+<head>
+    <!-- Define a codificação de caracteres como UTF-8 (suporte a acentos) -->
+    <meta charset="UTF-8">
+    <!-- Configura a responsividade para diferentes tamanhos de tela -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Define o título exibido na aba do navegador -->
+    <title>ToolSync - Configurações</title>
+    <!-- Importa a folha de estilos CSS específica desta tela -->
+    <link rel="stylesheet" href="telavendap.css">
+    <!-- Importa a biblioteca externa de ícones Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<!-- Início do corpo visível da página -->
+<body>
+    <!-- Container principal que organiza o layout em barra lateral + área de conteúdo -->
+    <div class="app-layout">
+        <!-- Barra lateral fixa de navegação e identificação do usuário -->
+        <aside class="sidebar">
+            <!-- Logotipo e subtítulo do sistema ToolSync no topo da barra lateral -->
+            <div class="brand">
+                <h2>Tool<span class="orange">Sync</span></h2>
+                <p>Sistema de Gestão de Ferramentas</p>
+            </div>
+
+            <!-- Bloco de exibição do avatar, nome e cargo do usuário logado -->
+            <div class="user-profile">
+                <div class="avatar-circle">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <h3 id="userNameDisplay">Ana Beatriz</h3>
+                <p id="userRoleDisplay">Proprietário</p>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="telainicialp.html" class="nav-btn">Dashboard</a>
+                <a href="telacadastrop.html" class="nav-btn">Cadastrar</a>
+                <a href="telavendap.html" class="nav-btn">Venda</a>
+                <a href="telaestoquep.html" class="nav-btn">Estoque</a>
+                <a href="telarelatoriosp.html" class="nav-btn">Relatórios</a>
+                <div class="nav-bottom">
+                    <!-- Botão/link para encerrar a sessão e retornar à tela de login -->
+                    <a href="../login.html" class="nav-btn logout-btn" id="btnLogout">Sair</a>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main-content animated-fadeIn">
+            <span class="page-tag">Configurações</span>
+            <div style="background:#e8e8e8; padding:16px; border-radius:4px; margin-top:12px;">
+                <h2 style="font-size:18px; color:#0b1736; margin-bottom:6px;"><i class="fa-solid fa-database"></i> Backup e restore do banco de dados</h2>
+                <p style="font-size:13px; margin-bottom:12px;">O backup é feito pela procedure <strong>sp_BackupBanco</strong> do SQL Server e gera um arquivo .bak na pasta de backup do servidor.
+                O restore volta o banco inteiro para a data do backup escolhido.</p>
+                <button type="button" class="nav-btn" id="btnFazerBackup" style="display:inline-block; width:auto; padding:8px 18px; cursor:pointer; border:none;">
+                    <i class="fa-solid fa-floppy-disk"></i> Fazer backup agora
+                </button>
+            </div>
+            <h3 style="margin:18px 0 8px; color:#0b1736;">Backups disponíveis</h3>
+            <table class="table-container" style="width:100%;">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Arquivo</th>
+                        <th>Tamanho</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaBackupsBody">
+                    <tr><td colspan="4">Carregando...</td></tr>
+                </tbody>
+            </table>
+            <a href="telainicialp.html" class="btn-voltar-fixed">&larr; Voltar</a>
+        </main>
+    </div>
+    <!-- Biblioteca compartilhada: API do back-end, sessão e lógica das telas -->
+    <script src="../js/toolsync.js"></script>
+    <!-- Importa o arquivo JavaScript responsável pela interatividade desta tela -->
+    <script src="telaconfiguracoesp.js"></script>
+</body>
+</html>

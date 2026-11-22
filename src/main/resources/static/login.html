@@ -1,0 +1,70 @@
+<!-- ==========================================================================
+     ARQUIVO: login.html
+     DESCRIÇÃO: Tela inicial de autenticação do sistema ToolSync, responsável por validar o perfil do usuário e redirecioná-lo ao painel correspondente.
+     ========================================================================== -->
+<!-- Declaração do tipo de documento HTML5 -->
+<!DOCTYPE html>
+<!-- Elemento raiz da página HTML definido em Português do Brasil -->
+<html lang="pt-BR">
+<!-- Cabeçalho técnico da página (metadados, título e importação de estilos) -->
+<head>
+    <!-- Define a codificação de caracteres como UTF-8 (suporte a acentos) -->
+    <meta charset="UTF-8">
+    <!-- Configura a responsividade para diferentes tamanhos de tela -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Define o título exibido na aba do navegador -->
+    <title>ToolSync - Login</title>
+    <!-- Importa a folha de estilos CSS específica desta tela -->
+    <link rel="stylesheet" href="login.css">
+    <!-- Importa a biblioteca externa de ícones Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<!-- Início do corpo visível da página -->
+<body>
+    <!-- Container principal centralizado da tela de login -->
+    <div class="main-wrapper">
+        <!-- Coluna esquerda com a identidade visual e logotipo da marca ToolSync -->
+        <div class="brand-side">
+            <h1 class="brand-title">Tool<span class="orange">Sync</span></h1>
+            <p class="brand-subtitle">Sistema de Gestão de Ferramentas</p>
+        </div>
+        <!-- Cartão escuro central contendo o formulário de autenticação -->
+        <div class="login-card">
+            <h2 class="login-header">Login</h2>
+            <!-- Formulário de entrada de dados do usuário -->
+            <form id="loginForm">
+                <div class="form-row">
+                    <div class="icon-box">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <label>Usuário:</label>
+                    <!-- Campo de entrada/seleção identificado por "usuario" -->
+                    <input type="text" id="usuario" placeholder="Informe o usuário..." required>
+                </div>
+                <div class="form-row">
+                    <div class="icon-box stack-icon">
+                        <i class="fa-solid fa-lock"></i>
+                        <span class="stars">****</span>
+                    </div>
+                    <label>Senha:</label>
+                    <div class="password-field-wrapper">
+                        <!-- Campo de entrada/seleção identificado por "senha" -->
+                        <input type="password" id="senha" placeholder="Informe a senha.." required>
+                        <!-- Botão de ação identificado por "togglePassword" -->
+                        <button type="button" id="togglePassword"><i id="eyeIcon" class="fa-regular fa-eye"></i></button>
+                    </div>
+                </div>
+                <div class="forgot-wrapper">
+                    <a href="#" class="forgot-link">Esqueci a senha</a>
+                </div>
+                <div class="btn-wrapper">
+                    <button type="submit" class="btn-entrar">Entrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Importa o arquivo JavaScript responsável pela interatividade desta tela -->
+    <script src="js/toolsync.js"></script>
+    <script src="login.JS"></script>
+</body>
+</html>
