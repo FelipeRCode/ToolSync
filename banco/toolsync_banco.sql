@@ -124,7 +124,7 @@ create table Fornecedores
 	cnpj				char(18)		not null	unique
 						check(cnpj like '[0-9][0-9].[0-9][0-9][0-9].[0-9][0-9][0-9]/[0-9][0-9][0-9][0-9]-[0-9][0-9]'),
 	ramo				varchar(100)	not null,
-	regime_tributario	varchar(20)		not null	check(regime_tributario in ('Simples Nacional', 'Lucro Presumido', 'Lucro Real')),
+	regime_tributario	varchar(20)		not null	constraint ck_Fornecedores_Regime check(regime_tributario in ('Simples Nacional', 'Lucro Presumido', 'Lucro Real', 'MEI')),
 	representante		varchar(100)	not null,
 	dados_bancarios		varchar(150)		null,
 	ativo				bit				not null	default 1
@@ -1281,7 +1281,7 @@ exec sp_addextendedproperty 'MS_Description', N'Empresas que vendem mercadoria p
 exec sp_addextendedproperty 'MS_Description', N'Identificador do fornecedor (o mesmo id da Pessoa)', 'SCHEMA', 'dbo', 'TABLE', 'Fornecedores', 'COLUMN', 'pessoa_id'
 exec sp_addextendedproperty 'MS_Description', N'CNPJ no formato 00.000.000/0000-00', 'SCHEMA', 'dbo', 'TABLE', 'Fornecedores', 'COLUMN', 'cnpj'
 exec sp_addextendedproperty 'MS_Description', N'Tipo de produto fornecido', 'SCHEMA', 'dbo', 'TABLE', 'Fornecedores', 'COLUMN', 'ramo'
-exec sp_addextendedproperty 'MS_Description', N'Simples Nacional, Lucro Presumido ou Lucro Real', 'SCHEMA', 'dbo', 'TABLE', 'Fornecedores', 'COLUMN', 'regime_tributario'
+exec sp_addextendedproperty 'MS_Description', N'Simples Nacional, Lucro Presumido, Lucro Real ou MEI', 'SCHEMA', 'dbo', 'TABLE', 'Fornecedores', 'COLUMN', 'regime_tributario'
 exec sp_addextendedproperty 'MS_Description', N'Contato comercial no fornecedor', 'SCHEMA', 'dbo', 'TABLE', 'Fornecedores', 'COLUMN', 'representante'
 exec sp_addextendedproperty 'MS_Description', N'Banco, agência e conta ou chave PIX', 'SCHEMA', 'dbo', 'TABLE', 'Fornecedores', 'COLUMN', 'dados_bancarios'
 exec sp_addextendedproperty 'MS_Description', N'1 = fornecedor ativo', 'SCHEMA', 'dbo', 'TABLE', 'Fornecedores', 'COLUMN', 'ativo'

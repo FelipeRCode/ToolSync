@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class FornecedorService {
 
-	private static final List<String> REGIMES = List.of("Simples Nacional", "Lucro Presumido", "Lucro Real");
+	private static final List<String> REGIMES = List.of("Simples Nacional", "Lucro Presumido", "Lucro Real", "MEI");
 
 	private final FornecedorRepository fornecedorRepository;
 	private final MovimentacaoEstoqueRepository movimentacaoRepository;
@@ -54,7 +54,7 @@ public class FornecedorService {
 		}
 		String regime = Validacao.obrigatorio(dados.regimeTributario(), "Regime Tributário");
 		if (!REGIMES.contains(regime)) {
-			throw new NegocioException("Regime tributário inválido. Use Simples Nacional, Lucro Presumido ou Lucro Real.");
+			throw new NegocioException("Regime tributário inválido. Use Simples Nacional, Lucro Presumido, Lucro Real ou MEI.");
 		}
 		String telefone = Validacao.obrigatorio(dados.telefone(), "Telefone");
 		Validacao.telefone(telefone);

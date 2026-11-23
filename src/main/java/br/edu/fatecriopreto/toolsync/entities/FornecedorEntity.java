@@ -25,7 +25,7 @@ public class FornecedorEntity extends PessoaEntity {
 	/** tipo de produto fornecido */
 	private String ramo;
 
-	/** Simples Nacional, Lucro Presumido ou Lucro Real */
+	/** Simples Nacional, Lucro Presumido, Lucro Real ou MEI */
 	private String regimeTributario;
 
 	private String representante;
